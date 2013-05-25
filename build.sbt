@@ -15,3 +15,5 @@ libraryDependencies ++= Seq(
     "com.github.scaldi" %% "scaldi" % "0.1.2",
     "org.scalatest" %% "scalatest" % "1.9.1" % "test"
 )
+
+resolvers += "Angelsmasterpiece repo" at "https://raw.github.com/OlegIlyenko/angelsmasterpiece-maven-repo/master"
