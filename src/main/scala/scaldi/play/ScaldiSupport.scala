@@ -9,8 +9,7 @@ import scaldi.{StaticModule, DynamicModule, Injector, ClassIdentifier}
  *
  * @author Oleg Ilyenko
  */
-trait ScaldiSupport {
-  self: GlobalSettings =>
+trait ScaldiSupport extends GlobalSettings {
 
   def applicationModule: Injector
 
@@ -23,7 +22,9 @@ trait ScaldiSupport {
       lazy val config = playApp.configuration
     }
 
-  override def onStart(app: Application) {
+  abstract override def onStart(app: Application) {
+    super.onStart(app)
+
     currentApplication = app
   }
 

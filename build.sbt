@@ -2,7 +2,7 @@ name := "scaldi-play"
 
 organization := "com.github.scaldi"
 
-version := "0.2-SNAPSHOT"
+version := "0.1.1"
 
 crossScalaVersions := Seq("2.10.1")
 
