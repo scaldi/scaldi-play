@@ -17,3 +17,4 @@ libraryDependencies ++= Seq(
 )
 
 resolvers += "Angelsmasterpiece repo" at "https://raw.github.com/OlegIlyenko/angelsmasterpiece-maven-repo/master"
+resolvers += "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/"
