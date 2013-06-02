@@ -14,7 +14,7 @@ scalacOptions += "-deprecation"
 
 libraryDependencies ++= Seq(
     "play" %% "play" % "2.1.1",
-    "com.github.scaldi" %% "scaldi" % "0.1.2",
+    "com.github.scaldi" %% "scaldi" % "0.2",
     "org.scalatest" %% "scalatest" % "1.9.1" % "test"
 )
 
