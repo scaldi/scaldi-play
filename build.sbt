@@ -4,7 +4,7 @@ description := "Scaldi-Play - Scaldi integration for Play framework"
 
 organization := "com.github.scaldi"
 
-version := "0.2.1-SNAPSHOT"
+version := "0.2.1"
 
 crossScalaVersions := Seq("2.10.2")
 
