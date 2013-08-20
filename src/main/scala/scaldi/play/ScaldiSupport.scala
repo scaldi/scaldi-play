@@ -2,20 +2,22 @@ package scaldi.play
 
 import condition.PlayConfigurationInjector
 import play.api.{Application, GlobalSettings}
-import scaldi.{StaticModule, DynamicModule, Injector, ClassIdentifier}
+import scaldi._
+import scala.Some
+import scaldi.ClassIdentifier
 
 /**
  * Adds Scaldi support to the GlobalSettings
  *
  * @author Oleg Ilyenko
  */
-trait ScaldiSupport extends GlobalSettings {
+trait ScaldiSupport extends GlobalSettings with Injectable {
 
   def applicationModule: Injector
 
   private var currentApplication: Application = _
 
-  private lazy val appInjector = applicationModule :: new PlayConfigurationInjector(currentApplication) ::
+  protected implicit lazy val applicationInjector = applicationModule :: new PlayConfigurationInjector(currentApplication) ::
     new StaticModule {
       lazy val playApp = currentApplication
       lazy val playMode = playApp.mode
@@ -29,7 +31,7 @@ trait ScaldiSupport extends GlobalSettings {
   }
 
   override def getControllerInstance[A](controllerClass: Class[A]) =
-    appInjector.getBinding(List(ClassIdentifier(controllerClass))) match {
+    applicationInjector.getBinding(List(ClassIdentifier(controllerClass))) match {
       case Some(binding) => binding.get map (_.asInstanceOf[A]) getOrElse
         (throw new IllegalStateException("Controller for class " + controllerClass + " is explicitly un-bound!"))
       case None =>
