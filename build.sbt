@@ -4,7 +4,7 @@ description := "Scaldi-Play - Scaldi integration for Play framework"
 
 organization := "com.github.scaldi"
 
-version := "0.2.1"
+version := "0.2.2-SNAPSHOT"
 
 crossScalaVersions := Seq("2.10.2")
 
@@ -13,7 +13,7 @@ scalaVersion := "2.10.2"
 scalacOptions += "-deprecation"
 
 libraryDependencies ++= Seq(
-    "play" %% "play" % "2.1.3",
+    "play" %% "play" % "2.1.3" % "provided",
     "com.github.scaldi" %% "scaldi" % "0.2",
     "org.scalatest" %% "scalatest" % "1.9.1" % "test"
 )
