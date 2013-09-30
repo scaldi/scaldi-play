@@ -1,6 +1,10 @@
 *.class
 *.log
 
+# idea
+.idea
+.idea_modules
+
 # sbt specific
 dist/*
 target/

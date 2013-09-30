@@ -13,7 +13,7 @@ scalaVersion := "2.10.2"
 scalacOptions += "-deprecation"
 
 libraryDependencies ++= Seq(
-    "play" %% "play" % "2.1.3" % "provided",
+    "com.typesafe.play" %% "play" % "2.2.0" % "provided",
     "com.github.scaldi" %% "scaldi" % "0.2",
     "org.scalatest" %% "scalatest" % "1.9.1" % "test"
 )
