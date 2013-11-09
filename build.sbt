@@ -6,14 +6,14 @@ organization := "com.github.scaldi"
 
 version := "0.2.3-SNAPSHOT"
 
-crossScalaVersions := Seq("2.10.2")
+crossScalaVersions := Seq("2.10.3")
 
 scalaVersion := "2.10.2"
 
 scalacOptions += "-deprecation"
 
 libraryDependencies ++= Seq(
-    "com.typesafe.play" %% "play" % "2.2.0" % "provided",
+    "com.typesafe.play" %% "play" % "2.2.1" % "provided",
     "com.github.scaldi" %% "scaldi" % "0.2",
     "org.scalatest" %% "scalatest" % "1.9.1" % "test"
 )
