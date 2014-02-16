@@ -7,9 +7,32 @@ import scala.Some
 import scaldi.ClassIdentifier
 
 /**
- * Adds Scaldi support to the GlobalSettings
+ * Adds Scaldi support to the `Global`.
  *
- * @author Oleg Ilyenko
+ * If you mix-in `ScaldiSupport` in the `Global`, then you need to implement `applicationModule` method:
+ *
+ * <pre class="prettyprint">
+ * override def applicationModule = new MyAppModule :: new AnotherModule
+ * </pre>
+ *
+ * Implicit `Injector` would be available in scope so you can use it in different play callbacks like `onStart`
+ * and `onStop` (`ScaldiSupport` also extends `Injectable`, so you can use `inject` without any additional setup):
+ *
+ * <pre class="prettyprint">
+ * override def onStart(app: Application) = {
+ *   super.onStart(app)
+ *   val service = inject [Service]
+ *   ...
+ * }
+ * </pre>
+ *
+ * `ScaldiSupport` provides following pre-defined bindings:
+ *
+ * <ul>
+ *   <li> '''playApp''' - Current play application
+ *   <li> '''playMode''' - Current play application's mode (`Dev`, `Prod` or `Test`)
+ *   <li> '''config''' - Current play application's configuration (all properties of configuration are also available as bindings)
+ * </ul>
  */
 trait ScaldiSupport extends GlobalSettings with Injectable {
 

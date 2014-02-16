@@ -6,6 +6,14 @@ import scaldi.{Condition, Injector}
 import scaldi.Injectable._
 import play.api.Mode._
 
+/**
+ * Provides some Play-specific conditions that can be used in the mappings:
+ *
+ * <pre class="stHighlight">
+ * bind [MessageService] when (inDevMode or inTestMode) to new SimpleMessageService
+ * bind [MessageService] when inProdMode to new OfficialMessageService
+ * </pre>
+ */
 package object condition {
   /**
    * Play application is started in Dev mode
