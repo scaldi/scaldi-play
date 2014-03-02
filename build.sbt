@@ -4,7 +4,7 @@ description := "Scaldi-Play - Scaldi integration for Play framework"
 
 organization := "org.scaldi"
 
-version := "0.3"
+version := "0.4-SNAPSHOT"
 
 scalaVersion := "2.10.3"
 
