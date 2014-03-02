@@ -2,20 +2,17 @@ name := "scaldi-play"
 
 description := "Scaldi-Play - Scaldi integration for Play framework"
 
-organization := "com.github.scaldi"
+organization := "org.scaldi"
 
-version := "0.2.3-SNAPSHOT"
+version := "0.3"
 
-crossScalaVersions := Seq("2.10.3")
-
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.3"
 
 scalacOptions += "-deprecation"
 
 libraryDependencies ++= Seq(
-    "com.typesafe.play" %% "play" % "2.2.1" % "provided",
-    "com.github.scaldi" %% "scaldi" % "0.2",
-    "org.scalatest" %% "scalatest" % "1.9.1" % "test"
+  "com.typesafe.play" %% "play" % "2.2.2" % "provided",
+  "org.scaldi" %% "scaldi" % "0.3"
 )
 
 publishMavenStyle := true

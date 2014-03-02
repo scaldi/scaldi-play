@@ -2,9 +2,8 @@ package scaldi.play
 
 import condition.PlayConfigurationInjector
 import play.api.{Application, GlobalSettings}
+import scala.reflect.runtime
 import scaldi._
-import scala.Some
-import scaldi.ClassIdentifier
 
 /**
  * Adds Scaldi support to the `Global`.
@@ -40,12 +39,9 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
 
   private var currentApplication: Application = _
 
-  protected implicit lazy val applicationInjector = applicationModule :: new PlayConfigurationInjector(currentApplication) ::
-    new StaticModule {
-      lazy val playApp = currentApplication
-      lazy val playMode = playApp.mode
-      lazy val config = playApp.configuration
-    }
+  protected implicit lazy val applicationInjector = applicationModule ::
+    new PlayConfigurationInjector(currentApplication) ::
+    new PlayAppModule(currentApplication)
 
   abstract override def onStart(app: Application) {
     super.onStart(app)
@@ -53,12 +49,20 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
     currentApplication = app
   }
 
-  override def getControllerInstance[A](controllerClass: Class[A]) =
-    applicationInjector.getBinding(List(ClassIdentifier(controllerClass))) match {
+  override def getControllerInstance[A](controllerClass: Class[A]) = {
+    val runtimeMirror =  runtime.universe.runtimeMirror(controllerClass.getClassLoader)
+
+    applicationInjector.getBinding(List(TypeTagIdentifier(runtimeMirror.classSymbol(controllerClass).toType))) match {
       case Some(binding) => binding.get map (_.asInstanceOf[A]) getOrElse
         (throw new IllegalStateException("Controller for class " + controllerClass + " is explicitly un-bound!"))
       case None =>
         throw new IllegalStateException("Controller for class " + controllerClass + " not found!")
     }
+  }
+}
 
+class PlayAppModule(app: Application) extends StaticModule {
+  lazy val playApp = app
+  lazy val playMode = app.mode
+  lazy val config = app.configuration
 }
