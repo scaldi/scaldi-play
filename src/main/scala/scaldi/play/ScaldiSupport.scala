@@ -37,7 +37,7 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
   /**
    * The current injector if the application is running.
    */
-  private var _currentInjector: Option[MutableInjectorAggregation] = None
+  private var currentInjector: Option[Injector with LifecycleManager] = None
 
   /**
    * @return the application module to use
@@ -49,11 +49,11 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
    *
    * This should only be used directly in legacy code and tests.
    */
-  implicit def injector: Injector = _currentInjector.getOrElse {
-    throw new RuntimeException("No injector found. Is application running?")
+  implicit def injector: Injector = currentInjector.getOrElse {
+    throw new IllegalStateException("No injector found. Is application running?")
   }
 
-  private def createApplicationInjector(currentApplication: Application): MutableInjectorAggregation =
+  private def createApplicationInjector(currentApplication: Application): Injector with LifecycleManager =
     applicationModule ::
       new PlayConfigurationInjector(currentApplication) ::
       new PlayAppModule(currentApplication)
@@ -61,17 +61,15 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
   abstract override def onStart(app: Application) {
     super.onStart(app)
 
-    _currentInjector = Some(createApplicationInjector(app))
+    currentInjector = Some(createApplicationInjector(app))
   }
 
   abstract override def onStop(app: Application) {
     super.onStop(app)
 
-    _currentInjector.foreach {
-      _.destroy()
-    }
+    currentInjector foreach (_.destroy())
 
-    _currentInjector = None
+    currentInjector = None
   }
 
   override def getControllerInstance[A](controllerClass: Class[A]): A = {
