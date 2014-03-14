@@ -12,7 +12,9 @@ scalacOptions += "-deprecation"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % "2.2.2" % "provided",
-  "org.scaldi" %% "scaldi" % "0.3"
+  "org.scaldi" %% "scaldi" % "0.3",
+  "org.scalatest" %% "scalatest" % "2.0" % "test",
+  "com.typesafe.play" %% "play-test" % "2.2.2" % "test"
 )
 
 publishMavenStyle := true
