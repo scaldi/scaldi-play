@@ -46,12 +46,6 @@ object ScaldiSupportTest {
 
       inject[DummyService].hi should equal("hello")
     }
-
-    override def onStop(app: Application): Unit = {
-      applicationInjector.destroy()
-
-      super.onStop(app)
-    }
   }
 }
 

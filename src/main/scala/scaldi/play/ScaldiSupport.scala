@@ -34,25 +34,50 @@ import scaldi._
  * </ul>
  */
 trait ScaldiSupport extends GlobalSettings with Injectable {
+  /**
+   * The current injector if the application is running.
+   */
+  private var _currentInjector: Option[MutableInjectorAggregation] = None
 
+  /**
+   * @return the application module to use
+   */
   def applicationModule: Injector
 
-  private var currentApplication: Application = _
+  /**
+   * The current injector when the application is running.
+   *
+   * This should only be used directly in legacy code and tests.
+   */
+  implicit def injector: Injector = _currentInjector.getOrElse {
+    throw new RuntimeException("No injector found. Is application running?")
+  }
 
-  protected implicit lazy val applicationInjector = applicationModule ::
-    new PlayConfigurationInjector(currentApplication) ::
-    new PlayAppModule(currentApplication)
+  private def createApplicationInjector(currentApplication: Application): MutableInjectorAggregation =
+    applicationModule ::
+      new PlayConfigurationInjector(currentApplication) ::
+      new PlayAppModule(currentApplication)
 
   abstract override def onStart(app: Application) {
     super.onStart(app)
 
-    currentApplication = app
+    _currentInjector = Some(createApplicationInjector(app))
   }
 
-  override def getControllerInstance[A](controllerClass: Class[A]) = {
+  abstract override def onStop(app: Application) {
+    super.onStop(app)
+
+    _currentInjector.foreach {
+      _.destroy()
+    }
+
+    _currentInjector = None
+  }
+
+  override def getControllerInstance[A](controllerClass: Class[A]): A = {
     val runtimeMirror =  runtime.universe.runtimeMirror(controllerClass.getClassLoader)
 
-    applicationInjector.getBinding(List(TypeTagIdentifier(runtimeMirror.classSymbol(controllerClass).toType))) match {
+    injector.getBinding(List(TypeTagIdentifier(runtimeMirror.classSymbol(controllerClass).toType))) match {
       case Some(binding) => binding.get map (_.asInstanceOf[A]) getOrElse
         (throw new IllegalStateException("Controller for class " + controllerClass + " is explicitly un-bound!"))
       case None =>
