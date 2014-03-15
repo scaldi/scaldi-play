@@ -42,7 +42,7 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
   /**
    * @return the application module to use
    */
-  def applicationModule: Injector
+  def applicationModule(app: Application): Injector
 
   /**
    * The current injector when the application is running.
@@ -54,7 +54,7 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
   }
 
   private def createApplicationInjector(currentApplication: Application): Injector with LifecycleManager =
-    applicationModule ::
+    applicationModule(currentApplication) ::
       new PlayConfigurationInjector(currentApplication) ::
       new PlayAppModule(currentApplication)
 
