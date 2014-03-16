@@ -32,11 +32,14 @@ object ScaldiSupportTest {
     }
   }
 
+  class ConfiguredService(val foo: String)
+
   object Global extends GlobalSettings with ScaldiSupport with Matchers {
     var startCount: Int = 0
 
-    override def applicationModule: Injector = new Module {
+    override def applicationModule(app: Application): Injector = new Module {
       binding to new DummyService destroyWith(_.stop())
+      binding to new ConfiguredService(app.configuration.getString("some.prop").getOrElse("bar"))
     }
 
     override def onStart(app: Application): Unit = {
@@ -78,6 +81,20 @@ class ScaldiSupportTest extends FunSuite with Matchers {
       Global.startCount should equal(2)
       DummySevice.instanceCount should equal(2)
       DummySevice.stopCount should equal(2)
+    }
+  }
+
+  test("access config props in module") {
+    val app = FakeApplication(
+      additionalConfiguration = Map("some.prop" -> "foo"),
+      withGlobal = Some(Global)
+    )
+
+    withClue("first run") {
+      Play.start(app)
+      val srvc = Global.getControllerInstance(classOf[ConfiguredService])
+      srvc.foo should equal("foo")
+      Play.stop()
     }
   }
 }
