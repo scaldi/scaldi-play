@@ -1,3 +1,7 @@
+## v0.3.2 (24.04.2014)
+
+* Updated to scaldi version 0.3.2
+
 ## v0.3.1 (15.03.2014)
 
 * Correct Play application shutdown handling (big thanks to [Peter Kolloch](https://github.com/kolloch) for this contribution)
