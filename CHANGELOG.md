@@ -1,3 +1,8 @@
+## v0.3.3 (20.05.2014)
+
+* Updated to play version 2.3.0-RC1
+* Cross-compiling to Scala version 2.10.4 and 2.11.0
+
 ## v0.3.2 (24.04.2014)
 
 * Updated to scaldi version 0.3.2
