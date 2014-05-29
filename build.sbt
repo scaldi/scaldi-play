@@ -19,6 +19,19 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-test" % "2.3.0-RC1" % "test"
 )
 
+// nice prompt!
+shellPrompt in ThisBuild := { state =>
+  scala.Console.GREEN + Project.extract(state).currentRef.project + "> " + scala.Console.RESET
+}
+
+git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"
+
+site.settings
+
+site.includeScaladoc()
+
+ghpages.settings
+
 publishMavenStyle := true
 
 publishArtifact in Test := false
