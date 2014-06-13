@@ -9,4 +9,4 @@ SBT Configuration:
 
     libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.3.3"
 
-[![Build Status](https://travis-ci.org/scaldi/scaldi-play.png)](https://travis-ci.org/scaldi/scaldi-play)
+[![Build Status](https://travis-ci.org/scaldi/scaldi-play.png)](https://travis-ci.org/scaldi/scaldi-play) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.11)
