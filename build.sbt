@@ -4,19 +4,17 @@ description := "Scaldi-Play - Scaldi integration for Play framework"
 
 organization := "org.scaldi"
 
-version := "0.3.4-SNAPSHOT"
+version := "0.4"
 
-crossScalaVersions := Seq("2.10.4", "2.11.0")
-
-scalaVersion := "2.11.0"
+scalaVersion := "2.11.1"
 
 scalacOptions += "-deprecation"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play" % "2.3.0-RC1" % "provided",
-  "org.scaldi" %% "scaldi" % "0.3.2",
+  "com.typesafe.play" %% "play" % "2.3.0" % "provided",
+  "org.scaldi" %% "scaldi" % "0.4",
   "org.scalatest" %% "scalatest" % "2.1.3" % "test",
-  "com.typesafe.play" %% "play-test" % "2.3.0-RC1" % "test"
+  "com.typesafe.play" %% "play-test" % "2.3.0" % "test"
 )
 
 // nice prompt!
