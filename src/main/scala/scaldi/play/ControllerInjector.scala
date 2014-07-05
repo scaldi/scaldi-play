@@ -40,19 +40,19 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
 
   private def createBinding(tpe: Type, identifiers: List[Identifier]) = {
     val controller =
-      tpe.declarations
+      tpe.decls
         .filter(_.isMethod)
         .map(_.asMethod)
-        .find(m => m.isConstructor && (m.paramss match {
+        .find(m => m.isConstructor && (m.paramLists match {
           case List(Nil) => true
           case List(Nil, List(paramType)) if paramType.isImplicit && paramType.typeSignature <:< typeTag[Injector].tpe  => true
           case _ => false
         }))
         .map { constructor =>
-          val mirror = runtimeMirror(this.getClass.getClassLoader)
+          val mirror = runtimeMirror(Thread.currentThread().getContextClassLoader)
           val constructorMirror = mirror.reflectClass(tpe.typeSymbol.asClass).reflectConstructor(constructor)
       
-          constructor.paramss match {
+          constructor.paramLists match {
             case List(Nil, List(paramType)) => constructorMirror(injector)
             case List(Nil) => constructorMirror()
           }

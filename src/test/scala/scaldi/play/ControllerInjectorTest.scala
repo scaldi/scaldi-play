@@ -34,7 +34,7 @@ class ControllerInjectorTest extends WordSpec with Matchers with Injectable {
     }
 
     "fail to inject if constructor shape is wrong" in {
-      evaluating(inject[TestController4]) should produce [IllegalArgumentException]
+      an [IllegalArgumentException] should be thrownBy inject [TestController4]
     }
   }
 
