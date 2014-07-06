@@ -6,7 +6,7 @@ import scaldi._
 import scala.reflect.runtime.universe.{Type, runtimeMirror, typeTag}
 
 /**
- * <p>Injector for the Play that creates controller bindings on the fly.
+ * <p>Injector for the Play applications that creates controller bindings on the fly.
  * The preferred way to use it is by adding it to the module composition
  * at the very end, so that it would be possible to override default instantiation
  * strategy in user-defined modules.

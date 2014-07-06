@@ -1,3 +1,7 @@
+## v0.4.1 (06.07.2014)
+
+* Added `ControllerInjector` which creates controller bindings on the fly, so that you don't need to define them explicitly anymore
+
 ## v0.4 (22.06.2014)
 
 * Updated to play version 2.3.0
