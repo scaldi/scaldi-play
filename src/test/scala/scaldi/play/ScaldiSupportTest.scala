@@ -1,6 +1,6 @@
 package scaldi.play
 
-import org.scalatest.{Matchers, FunSuite}
+import org.scalatest.{WordSpec, Matchers}
 import play.api.{Application, Play, GlobalSettings}
 import play.api.test.FakeApplication
 import scaldi.{Module, Injector}
@@ -49,35 +49,37 @@ object ScaldiSupportTest {
   }
 }
 
-class ScaldiSupportTest extends FunSuite with Matchers {
+class ScaldiSupportTest extends WordSpec with Matchers {
   import ScaldiSupportTest._
 
-  test("reinit with Global object") {
-    val app = FakeApplication(
-      withGlobal = Some(Global)
-    )
+  "ScaldiSupport" should {
+    "reinit with Global object" in {
+      val app = FakeApplication(
+        withGlobal = Some(Global)
+      )
 
-    Global.startCount should equal(0)
-    DummySevice.instanceCount should equal(0)
-    DummySevice.stopCount should equal(0)
+      Global.startCount should equal(0)
+      DummySevice.instanceCount should equal(0)
+      DummySevice.stopCount should equal(0)
 
-    withClue("first run") {
-      Play.start(app)
-      Play.stop()
+      withClue("first run") {
+        Play.start(app)
+        Play.stop()
 
-      Global.startCount should equal(1)
-      DummySevice.instanceCount should equal(1)
-      DummySevice.stopCount should equal(1)
-    }
+        Global.startCount should equal(1)
+        DummySevice.instanceCount should equal(1)
+        DummySevice.stopCount should equal(1)
+      }
 
 
-    withClue("second run") {
-      Play.start(app)
-      Play.stop()
+      withClue("second run") {
+        Play.start(app)
+        Play.stop()
 
-      Global.startCount should equal(2)
-      DummySevice.instanceCount should equal(2)
-      DummySevice.stopCount should equal(2)
+        Global.startCount should equal(2)
+        DummySevice.instanceCount should equal(2)
+        DummySevice.stopCount should equal(2)
+      }
     }
   }
 }

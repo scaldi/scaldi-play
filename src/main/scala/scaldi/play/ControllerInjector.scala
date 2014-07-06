@@ -1,5 +1,6 @@
 package scaldi.play
 
+import _root_.play.api.{Application, Play}
 import play.api.mvc.Controller
 import scaldi._
 import scala.reflect.runtime.universe.{Type, runtimeMirror, typeTag}
@@ -49,9 +50,12 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
           case _ => false
         }))
         .map { constructor =>
-          val mirror = runtimeMirror(Thread.currentThread().getContextClassLoader)
+          import Injectable._
+
+          val app = inject [Application]
+          val mirror = runtimeMirror(app.classloader)
           val constructorMirror = mirror.reflectClass(tpe.typeSymbol.asClass).reflectConstructor(constructor)
-      
+
           constructor.paramLists match {
             case List(Nil, List(paramType)) => constructorMirror(injector)
             case List(Nil) => constructorMirror()
