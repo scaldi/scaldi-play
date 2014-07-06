@@ -30,7 +30,11 @@
       <div id="definition">
         <img src="../../lib/package_big.png" />
         <p id="owner"><a href="../package.html" class="extype" name="scaldi">scaldi</a></p>
-        <h1>play</h1>
+        <h1>play</h1> <span class="permalink">
+      <a href="../../index.html#scaldi.play.package" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
       </div>
 
       <h4 id="signature" class="signature">
@@ -62,7 +66,32 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="scaldi.play.PlayAppModule" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="scaldi.play.ControllerInjector" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ControllerInjectorextendsMutableInjectorUserwithInjectorWithLifecycle[scaldi.play.ControllerInjector]withShutdownHookLifecycleManager"></a>
+      <a id="ControllerInjector:ControllerInjector"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ControllerInjector.html"><span class="name">ControllerInjector</span></a><span class="result"> extends <span class="extype" name="scaldi.MutableInjectorUser">MutableInjectorUser</span> with <span class="extype" name="scaldi.InjectorWithLifecycle">InjectorWithLifecycle</span>[<a href="ControllerInjector.html" class="extype" name="scaldi.play.ControllerInjector">ControllerInjector</a>] with <span class="extype" name="scaldi.ShutdownHookLifecycleManager">ShutdownHookLifecycleManager</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaldi.play.package@ControllerInjectorextendsMutableInjectorUserwithInjectorWithLifecycle[scaldi.play.ControllerInjector]withShutdownHookLifecycleManager" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Injector for the Play applications that creates controller bindings on the fly.</p><div class="fullcomment"><div class="comment cmt"><p>Injector for the Play applications that creates controller bindings on the fly.
+The preferred way to use it is by adding it to the module composition
+at the very end, so that it would be possible to override default instantiation
+strategy in user-defined modules.</p><p>Here is an example:</p><p><pre class="stHighlight">
+object Global extends GlobalSettings with ScaldiSupport {
+  def applicationModule = new UserModule :: new DbModule :: new ControllerInjector
+}
+</pre>
+</p></div></div>
+    </li><li name="scaldi.play.PlayAppModule" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="PlayAppModuleextendsStaticModule"></a>
       <a id="PlayAppModule:PlayAppModule"></a>
       <h4 class="signature">
@@ -73,9 +102,13 @@
       <span class="symbol">
         <a href="PlayAppModule.html"><span class="name">PlayAppModule</span></a><span class="result"> extends <span class="extype" name="scaldi.StaticModule">StaticModule</span></span>
       </span>
-      </h4>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaldi.play.package@PlayAppModuleextendsStaticModule" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
       
-    </li><li name="scaldi.play.ScaldiSupport" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+    </li><li name="scaldi.play.ScaldiSupport" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="ScaldiSupportextendsGlobalSettingswithInjectable"></a>
       <a id="ScaldiSupport:ScaldiSupport"></a>
       <h4 class="signature">
@@ -86,8 +119,21 @@
       <span class="symbol">
         <a href="ScaldiSupport.html"><span class="name">ScaldiSupport</span></a><span class="result"> extends <span class="extype" name="play.api.GlobalSettings">GlobalSettings</span> with <span class="extype" name="scaldi.Injectable">Injectable</span></span>
       </span>
-      </h4>
-      <p class="comment cmt">Adds Scaldi support to the <code>Global</code>.</p>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaldi.play.package@ScaldiSupportextendsGlobalSettingswithInjectable" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Adds Scaldi support to the <code>Global</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Adds Scaldi support to the <code>Global</code>.</p><p>If you mix-in <code>ScaldiSupport</code> in the <code>Global</code>, then you need to implement <code>applicationModule</code> method:</p><p><pre class="prettyprint">
+override def applicationModule = new MyAppModule :: new AnotherModule
+</pre></p><p>Implicit <code>Injector</code> would be available in scope so you can use it in different play callbacks like <code>onStart</code>
+and <code>onStop</code> (<code>ScaldiSupport</code> also extends <code>Injectable</code>, so you can use <code>inject</code> without any additional setup):</p><p><pre class="prettyprint">
+override def onStart(app: Application) = {
+  super.onStart(app)
+  val service = inject [Service]
+  ...
+}
+</pre></p><p><code>ScaldiSupport</code> provides following pre-defined bindings:</p><ul><li> <b>playApp</b> - Current play application</li><li> <b>playMode</b> - Current play application's mode (<code>Dev</code>, <code>Prod</code> or <code>Test</code>)</li><li> <b>config</b> - Current play application's configuration (all properties of configuration are also available as bindings)</li></ul></div></div>
     </li></ol>
             </div>
 
@@ -95,7 +141,7 @@
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="scaldi.play.condition" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="scaldi.play.condition" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="condition"></a>
       <a id="condition:condition"></a>
       <h4 class="signature">
@@ -106,8 +152,16 @@
       <span class="symbol">
         <a href="condition/package.html"><span class="name">condition</span></a>
       </span>
-      </h4>
-      <p class="comment cmt">Provides some Play-specific conditions that can be used in the mappings:</p>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaldi.play.package@condition" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Provides some Play-specific conditions that can be used in the mappings:</p><div class="fullcomment"><div class="comment cmt"><p>Provides some Play-specific conditions that can be used in the mappings:</p><p><pre class="stHighlight">
+bind [MessageService] when (inDevMode or inTestMode) to new SimpleMessageService
+bind [MessageService] when inProdMode to new OfficialMessageService
+</pre>
+</p></div></div>
     </li></ol>
             </div>
 
