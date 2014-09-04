@@ -2,6 +2,7 @@ package scaldi.play
 
 import condition.PlayConfigurationInjector
 import play.api.{Application, GlobalSettings}
+import scala.collection.concurrent.TrieMap
 import scala.reflect.runtime
 import scaldi._
 
@@ -65,21 +66,38 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
   }
 
   abstract override def onStop(app: Application) {
-    super.onStop(app)
+    controllerCache.clear()
 
     currentInjector foreach (_.destroy())
-
     currentInjector = None
+    super.onStop(app)
   }
 
-  override def getControllerInstance[A](controllerClass: Class[A]): A = {
-    val runtimeMirror =  runtime.universe.runtimeMirror(controllerClass.getClassLoader)
+  /**
+   * For each entry, V.getClass == K
+   */
+  private val controllerCache = TrieMap[Class[_], Any]()
 
-    injector.getBinding(List(TypeTagIdentifier(runtimeMirror.classSymbol(controllerClass).toType))) match {
-      case Some(binding) => binding.get map (_.asInstanceOf[A]) getOrElse
-        (throw new IllegalStateException("Controller for class " + controllerClass + " is explicitly un-bound!"))
-      case None =>
-        throw new IllegalStateException("Controller for class " + controllerClass + " not found!")
+  override def getControllerInstance[A](controllerClass: Class[A]): A = {
+    controllerCache.getOrElseUpdate(controllerClass, {
+      getBoundInstance(controllerClass).fold(msg => throw new IllegalStateException(msg), a => a)
+    }).asInstanceOf[A]
+  }
+
+  /**
+   * As this involves a little bit of reflection, calls should be cached.
+   */
+  protected def getBoundInstance[A](controllerClass: Class[A]): Either[String, A] = {
+    val runtimeMirror = runtime.universe.runtimeMirror(controllerClass.getClassLoader)
+    val identifier = TypeTagIdentifier(runtimeMirror.classSymbol(controllerClass).toType)
+    injector.getBinding(List(identifier)).map {
+      binding => binding.get.map {
+        bound => Right(bound.asInstanceOf[A])
+      }.getOrElse {
+        Left(s"Controller for class $controllerClass is explicitly un-bound!")
+      }
+    } getOrElse {
+      Left(s"Controller for class $controllerClass not found!")
     }
   }
 }
