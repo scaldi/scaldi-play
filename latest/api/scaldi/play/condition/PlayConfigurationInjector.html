@@ -30,7 +30,9 @@
       <div id="definition">
         <img src="../../../lib/class_big.png" />
         <p id="owner"><a href="../../package.html" class="extype" name="scaldi">scaldi</a>.<a href="../package.html" class="extype" name="scaldi.play">play</a>.<a href="package.html" class="extype" name="scaldi.play.condition">condition</a></p>
-        <h1>PlayConfigurationInjector</h1> <span class="permalink">
+        <h1>PlayConfigurationInjector</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="scaldi.play.condition">package condition</a>
+          </div></span></h3><span class="permalink">
       <a href="../../../index.html#scaldi.play.condition.PlayConfigurationInjector" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" />
       </a>
@@ -43,12 +45,15 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">PlayConfigurationInjector</span><span class="result"> extends <span class="extype" name="scaldi.RawInjector">RawInjector</span></span>
+        <span class="name deprecated" title="Deprecated: (Since version 31.01.2015) Use TypesafeConfigInjector instead">PlayConfigurationInjector</span><span class="result"> extends <span class="extype" name="scaldi.RawInjector">RawInjector</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Play configuration Injector.
-</p></div><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 31.01.2015)</i> Use TypesafeConfigInjector instead</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scaldi.RawInjector">RawInjector</span>, <span class="extype" name="scaldi.Injector">Injector</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -108,27 +113,7 @@
     </li></ol>
             </div>
 
-        <div id="types" class="types members">
-              <h3>Type Members</h3>
-              <ol><li name="scaldi.RawInjector.RawBinding" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RawBindingextendsBindingwithProductwithSerializable"></a>
-      <a id="RawBinding:RawBinding"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">case class</span>
-      </span>
-      <span class="symbol">
-        <span class="name">RawBinding</span><span class="result"> extends <span class="extype" name="scaldi.Binding">Binding</span> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scaldi.play.condition.PlayConfigurationInjector@RawBindingextendsBindingwithProductwithSerializable" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>RawInjector</dd></dl></div>
-    </li></ol>
-            </div>
+        
 
         
 
@@ -259,6 +244,23 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="scaldi.RawInjector#discoverBinding" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="discoverBinding(name:&lt;?&gt;,tpe:&lt;?&gt;,ids:&lt;?&gt;):Option[scaldi.Binding]"></a>
+      <a id="discoverBinding(String,scala.reflect.api.JavaUniverse.Type,List[Identifier]):Option[Binding]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">discoverBinding</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="tpe">tpe: <span class="extype" name="scala.reflect.api.Types.Type">scala.reflect.api.JavaUniverse.Type</span></span>, <span name="ids">ids: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scaldi.Identifier">Identifier</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scaldi.Binding">Binding</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#scaldi.play.condition.PlayConfigurationInjector@discoverBinding(name:String,tpe:reflect.runtime.universe.Type,ids:List[scaldi.Identifier]):Option[scaldi.Binding]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>RawInjector</dd></dl></div>
     </li><li name="scaldi.RawInjector#discoverBinding" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="discoverBinding(ids:&lt;?&gt;):Option[scaldi.Binding]"></a>
       <a id="discoverBinding(List[Identifier]):Option[Binding]"></a>

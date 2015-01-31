@@ -30,7 +30,9 @@
       <div id="definition">
         <img src="../../lib/trait_big.png" />
         <p id="owner"><a href="../package.html" class="extype" name="scaldi">scaldi</a>.<a href="package.html" class="extype" name="scaldi.play">play</a></p>
-        <h1>ScaldiSupport</h1> <span class="permalink">
+        <h1>ScaldiSupport</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="scaldi.play">package play</a>
+          </div></span></h3><span class="permalink">
       <a href="../../index.html#scaldi.play.ScaldiSupport" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" />
       </a>
@@ -373,6 +375,24 @@ override def onStart(app: Application) = {
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="scaldi.play.ScaldiSupport#getBoundInstance" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getBoundInstance[A](controllerClass:Class[A]):Either[String,A]"></a>
+      <a id="getBoundInstance[A](Class[A]):Either[String,A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getBoundInstance</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="controllerClass">controllerClass: <span class="extype" name="scala.Predef.Class">Class</span>[<span class="extype" name="scaldi.play.ScaldiSupport.getBoundInstance.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scaldi.play.ScaldiSupport.getBoundInstance.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaldi.play.ScaldiSupport@getBoundInstance[A](controllerClass:Class[A]):Either[String,A]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">As this involves a little bit of reflection, calls should be cached.</p><div class="fullcomment"><div class="comment cmt"><p>As this involves a little bit of reflection, calls should be cached.
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -577,6 +597,23 @@ override def onStart(app: Application) = {
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
+    </li><li name="scaldi.Injectable#injectWithDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="injectWithDefault[T](injector:scaldi.Injector,default:=&gt;T)(ids:List[scaldi.Identifier]):T"></a>
+      <a id="injectWithDefault[T](Injector,⇒T)(List[Identifier]):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">injectWithDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>, <span name="default">default: ⇒ <span class="extype" name="scaldi.Injectable.injectWithDefault.T">T</span></span>)</span><span class="params">(<span name="ids">ids: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scaldi.Identifier">Identifier</span>]</span>)</span><span class="result">: <span class="extype" name="scaldi.Injectable.injectWithDefault.T">T</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaldi.play.ScaldiSupport@injectWithDefault[T](injector:scaldi.Injector,default:=&gt;T)(ids:List[scaldi.Identifier]):T" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
     </li><li name="scaldi.Wire#injected" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="injected[T](overrides:Tuple2[String,_]*):T"></a>
       <a id="injected[T](Tuple2[String,_]*):T"></a>
@@ -680,6 +717,23 @@ override def onStart(app: Application) = {
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scaldi.Injectable#noBindingFound" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="noBindingFound(ids:List[scaldi.Identifier]):Nothing"></a>
+      <a id="noBindingFound(List[Identifier]):Nothing"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">noBindingFound</span><span class="params">(<span name="ids">ids: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scaldi.Identifier">Identifier</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Nothing">Nothing</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaldi.play.ScaldiSupport@noBindingFound(ids:List[scaldi.Identifier]):Nothing" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
