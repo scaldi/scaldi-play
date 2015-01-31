@@ -1,7 +1,6 @@
 package scaldi.play
 
-import condition.PlayConfigurationInjector
-import play.api.{Application, GlobalSettings}
+import play.api.{Application, GlobalSettings, Mode, Configuration}
 import scala.collection.concurrent.TrieMap
 import scala.reflect.runtime
 import scaldi._
@@ -56,7 +55,7 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
 
   private def createApplicationInjector(currentApplication: Application): Injector with LifecycleManager =
     applicationModule ::
-      new PlayConfigurationInjector(currentApplication) ::
+      TypesafeConfigInjector(currentApplication.configuration.underlying) ::
       new PlayAppModule(currentApplication)
 
   abstract override def onStart(app: Application) {
@@ -102,8 +101,8 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
   }
 }
 
-class PlayAppModule(app: Application) extends StaticModule {
-  lazy val playApp = app
-  lazy val playMode = app.mode
-  lazy val config = app.configuration
+class PlayAppModule(app: Application) extends Module {
+  bind [Application] identifiedBy 'playApp to app
+  bind [Mode.Mode] identifiedBy 'playMode to inject[Application].mode
+  bind [Configuration] identifiedBy 'config to inject[Application].configuration
 }

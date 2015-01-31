@@ -1,3 +1,10 @@
+## v0.5 (31.01.2015)
+
+* Updated to play version 2.3.7
+* Updated to scaldi version 0.5
+* Using `TypesafeConfigInjector` now
+* Deprecated `PlayConfigurationInjector` in favour of `TypesafeConfigInjector`
+
 ## v0.4.1 (06.07.2014)
 
 * Added `ControllerInjector` which creates controller bindings on the fly, so that you don't need to define them explicitly anymore
