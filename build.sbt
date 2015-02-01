@@ -1,6 +1,6 @@
 name := "scaldi-play"
 organization := "org.scaldi"
-version := "0.6-SNAPSHOT"
+version := "0.5.1"
 
 description := "Scaldi-Play - Scaldi integration for Play framework"
 homepage := Some(url("http://scaldi.org"))
@@ -11,7 +11,7 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % "2.3.7" % "provided",
-  "org.scaldi" %% "scaldi" % "0.5",
+  "org.scaldi" %% "scaldi" % "0.5.1",
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "com.typesafe.play" %% "play-test" % "2.3.7" % "test"
@@ -30,14 +30,12 @@ ghpages.settings
 
 publishMavenStyle := true
 publishArtifact in Test := false
-pomIncludeRepository := { x => false }
-publishTo <<= version { v: String =>
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at nexus + "content/repositories/snapshots")
+pomIncludeRepository := (_ => false)
+publishTo := Some(
+  if (version.value.trim.endsWith("SNAPSHOT"))
+    "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   else
-    Some("releases" at nexus + "service/local/staging/deploy/maven2")
-}
+    "releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
 
 // nice prompt!
 

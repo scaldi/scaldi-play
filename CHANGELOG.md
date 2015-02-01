@@ -1,3 +1,8 @@
+## v0.5 (01.02.2015)
+
+* Updated to scaldi version 0.5.1
+
+
 ## v0.5 (31.01.2015)
 
 * Updated to play version 2.3.7
