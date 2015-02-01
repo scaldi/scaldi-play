@@ -3,7 +3,7 @@ package scaldi.play
 import org.scalatest.{WordSpec, Matchers}
 import play.api.{Application, Play, GlobalSettings}
 import play.api.test.FakeApplication
-import scaldi.{Module, Injector}
+import scaldi.{Injectable, Module, Injector}
 
 object ScaldiSupportTest {
   object DummySevice {
@@ -32,19 +32,17 @@ object ScaldiSupportTest {
     }
   }
 
-  object Global extends GlobalSettings with ScaldiSupport with Matchers {
+  object Global extends GlobalSettings with ScaldiSupport with Matchers with Injectable {
     var startCount: Int = 0
 
-    override def applicationModule: Injector = new Module {
-      binding to new DummyService destroyWith(_.stop())
+    override def applicationModule = new Module {
+      binding toNonLazy new DummyService destroyWith(_.stop())
     }
 
     override def onStart(app: Application): Unit = {
       super.onStart(app)
 
       startCount += 1
-
-      inject[DummyService].hi should equal("hello")
     }
   }
 }
@@ -54,27 +52,31 @@ class ScaldiSupportTest extends WordSpec with Matchers {
 
   "ScaldiSupport" should {
     "reinit with Global object" in {
-      val app = FakeApplication(
-        withGlobal = Some(Global)
-      )
+      def createApp = FakeApplication(
+        withGlobal = Some(Global),
+        additionalConfiguration = Map(
+          "play.application.loader" -> "scaldi.play.ScaldiApplicationLoader")) // TODO: improve... it looks terrible
 
       Global.startCount should equal(0)
       DummySevice.instanceCount should equal(0)
       DummySevice.stopCount should equal(0)
 
       withClue("first run") {
+        val app = createApp
+
         Play.start(app)
-        Play.stop()
+        Play.stop(app)
 
         Global.startCount should equal(1)
         DummySevice.instanceCount should equal(1)
         DummySevice.stopCount should equal(1)
       }
 
-
       withClue("second run") {
+        val app = createApp
+
         Play.start(app)
-        Play.stop()
+        Play.stop(app)
 
         Global.startCount should equal(2)
         DummySevice.instanceCount should equal(2)
