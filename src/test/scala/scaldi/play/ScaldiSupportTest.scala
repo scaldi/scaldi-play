@@ -4,6 +4,7 @@ import org.scalatest.{WordSpec, Matchers}
 import play.api.{Application, Play, GlobalSettings}
 import play.api.test.FakeApplication
 import scaldi.{Module, Injector}
+import play.api.test.Helpers._
 
 object ScaldiSupportTest {
   object DummySevice {
@@ -34,6 +35,7 @@ object ScaldiSupportTest {
 
   object Global extends GlobalSettings with ScaldiSupport with Matchers {
     var startCount: Int = 0
+    var stopCount: Int = 0
 
     override def applicationModule: Injector = new Module {
       binding to new DummyService destroyWith(_.stop())
@@ -45,6 +47,12 @@ object ScaldiSupportTest {
       startCount += 1
 
       inject[DummyService].hi should equal("hello")
+    }
+
+    override def onStop(app: Application) = {
+      super.onStop(app)
+
+      stopCount += 1
     }
   }
 }
@@ -59,24 +67,25 @@ class ScaldiSupportTest extends WordSpec with Matchers {
       )
 
       Global.startCount should equal (0)
+      Global.stopCount should equal (0)
       DummySevice.instanceCount should equal (0)
       DummySevice.stopCount should equal (0)
 
       withClue("first run") {
-        Play.start(app)
-        Play.stop()
+        running(app) {/* do nothing */}
 
         Global.startCount should equal (1)
+        Global.stopCount should equal (1)
         DummySevice.instanceCount should equal (1)
         DummySevice.stopCount should equal (1)
       }
 
 
       withClue("second run") {
-        Play.start(app)
-        Play.stop()
+        running(app) {/* do nothing */}
 
         Global.startCount should equal (2)
+        Global.stopCount should equal (2)
         DummySevice.instanceCount should equal (2)
         DummySevice.stopCount should equal (2)
       }
