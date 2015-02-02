@@ -52,6 +52,7 @@ class ScaldiSupportTest extends WordSpec with Matchers {
 
   "ScaldiSupport" should {
     "reinit with Global object" in {
+      // TODO: fake application is deprecated and need to be replaced with something else
       def createApp = FakeApplication(
         withGlobal = Some(Global),
         additionalConfiguration = Map(
