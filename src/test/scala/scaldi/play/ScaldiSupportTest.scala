@@ -58,17 +58,17 @@ class ScaldiSupportTest extends WordSpec with Matchers {
         withGlobal = Some(Global)
       )
 
-      Global.startCount should equal(0)
-      DummySevice.instanceCount should equal(0)
-      DummySevice.stopCount should equal(0)
+      Global.startCount should equal (0)
+      DummySevice.instanceCount should equal (0)
+      DummySevice.stopCount should equal (0)
 
       withClue("first run") {
         Play.start(app)
         Play.stop()
 
-        Global.startCount should equal(1)
-        DummySevice.instanceCount should equal(1)
-        DummySevice.stopCount should equal(1)
+        Global.startCount should equal (1)
+        DummySevice.instanceCount should equal (1)
+        DummySevice.stopCount should equal (1)
       }
 
 
@@ -76,9 +76,9 @@ class ScaldiSupportTest extends WordSpec with Matchers {
         Play.start(app)
         Play.stop()
 
-        Global.startCount should equal(2)
-        DummySevice.instanceCount should equal(2)
-        DummySevice.stopCount should equal(2)
+        Global.startCount should equal (2)
+        DummySevice.instanceCount should equal (2)
+        DummySevice.stopCount should equal (2)
       }
     }
   }

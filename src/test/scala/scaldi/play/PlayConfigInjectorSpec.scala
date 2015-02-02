@@ -16,7 +16,7 @@ class PlayConfigInjectorSpec extends WordSpec with Matchers {
   }
 
   "Play configuration injector" should {
-    "inject strings and ints" ignore { // TODO: unignore when scaldi 0.5.2 released and updated in scaldi-play!
+    "inject strings and ints" in {
       val global = new ScaldiSupport {
         override def applicationModule: Injector = new Module {
           binding to new DummyService
