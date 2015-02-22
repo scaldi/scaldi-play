@@ -11,6 +11,8 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % "2.4.0-M2" % "provided",
+  /* Included specifically to address the issue reported at https://github.com/scaldi/scaldi-play/issues/10. */
+  "com.typesafe.play" %% "play-cache" % "2.4.0-M2" % "provided",
   "org.scaldi" %% "scaldi" % "0.5.3",
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
