@@ -128,7 +128,12 @@ object ScaldiApplicationLoader extends Injectable {
     val qualifier = key.qualifier map {
       case QualifierInstance(a: Named) => StringIdentifier(a.value())
       case QualifierInstance(a) if a.getClass.getAnnotation(classOf[Qualifier]) != null =>
-        AnnotationIdentifier(mirror.classSymbol(a.getClass).toType)
+      AnnotationIdentifier(mirror.classSymbol(a.getClass).toType)
+      /* Second pattern condition addresses https://github.com/scaldi/scaldi-play/issues/10. */
+      case QualifierInstance(a) if a.getClass.getInterfaces.map(_.getAnnotation(classOf[Qualifier])).filterNot(null ==).nonEmpty =>
+        /* FIXME: There's probably a more efficient method. */
+        val qualifierInterface = a.getClass.getInterfaces.find(null != _.getAnnotation(classOf[Qualifier]))
+        AnnotationIdentifier(mirror.classSymbol(qualifierInterface.getClass).toType)
       case QualifierClass(clazz) => AnnotationIdentifier(mirror.classSymbol(clazz).toType)
     }
 
