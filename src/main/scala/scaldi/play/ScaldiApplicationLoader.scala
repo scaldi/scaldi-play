@@ -7,13 +7,13 @@ import play.api.ApplicationLoader.Context
 import play.api._
 import play.api.inject.{Binding => PlayBinding, Injector => PlayInjector, Module => PlayModule, _}
 import play.core.WebCommands
-import scaldi.Injectable.{injectWithDefault, noBindingFound}
+import scaldi.Injectable.noBindingFound
 import scaldi._
 import scaldi.jsr330.{AnnotationBinding, AnnotationIdentifier, OnDemandAnnotationInjector}
 import scaldi.util.ReflectionHelper
 
 import scala.concurrent.Future
-import scala.reflect.runtime.universe.typeOf
+import scala.reflect.runtime.universe.{typeOf, Type}
 
 class ScaldiApplicationLoader(val additionalModules: Injector*) extends ApplicationLoader {
   import scaldi.play.ScaldiApplicationLoader._
@@ -37,10 +37,7 @@ class ScaldiApplicationLoader(val additionalModules: Injector*) extends Applicat
       bind [GlobalSettings] to global
       bind [OptionalSourceMapper] to new OptionalSourceMapper(context.sourceMapper)
       bind [WebCommands] to context.webCommands
-      bind [PlayInjector] to {
-        if (cacheControllers) new ControllerCachingPlayInjector(new ScaldiInjector)
-        else new ScaldiInjector
-      }
+      bind [PlayInjector] to new ScaldiInjector(cacheControllers)
 
       binding identifiedBy 'playMode to inject[Application].mode
       binding identifiedBy 'config to inject[Application].configuration
@@ -66,7 +63,7 @@ class ScaldiApplicationLoader(val additionalModules: Injector*) extends Applicat
       case _ => NilInjector
     }
     val commonBindings = new Module {
-      bind [PlayInjector] to new ScaldiInjector
+      bind [PlayInjector] to new ScaldiInjector(false)
     }
     val configModules = modules.map(convertToScaldiModule(environment, configuration, _))
     implicit val injector = createScaldiInjector(configModules ++ Seq(commonBindings, globalInjector), configuration)
@@ -121,15 +118,17 @@ object ScaldiApplicationLoader extends Injectable {
       throw new PlayException("Unknown module type", s"Module [$unknown] is not a Play module or a Scaldi module")
   }
 
-  def identifiersForKey[T](key: BindingKey[T]) = {
+  def identifiersForKey[T](key: BindingKey[T]): (Type, List[Identifier]) = {
     val mirror = ReflectionHelper.mirror
     val keyType = mirror.classSymbol(key.clazz).toType
 
-    val qualifier = key.qualifier map {
-      case QualifierInstance(a: Named) => StringIdentifier(a.value())
-      case QualifierInstance(a) if a.getClass.getAnnotation(classOf[Qualifier]) != null =>
-        AnnotationIdentifier(mirror.classSymbol(a.getClass).toType)
-      case QualifierClass(clazz) => AnnotationIdentifier(mirror.classSymbol(clazz).toType)
+    val qualifier: Option[Identifier] = key.qualifier map {
+      case QualifierInstance(a: Named) =>
+        StringIdentifier(a.value())
+      case QualifierInstance(a) if ReflectionHelper.hasAnnotation[Qualifier](a) =>
+        AnnotationIdentifier.forAnnotation(a)
+      case QualifierClass(clazz) =>
+        AnnotationIdentifier(ReflectionHelper.classToType(clazz))
     }
 
     (keyType, TypeTagIdentifier(keyType) :: qualifier.toList)

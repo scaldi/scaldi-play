@@ -11,10 +11,11 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % "2.4.0-M2" % "provided",
-  "org.scaldi" %% "scaldi" % "0.5.3",
+  "org.scaldi" %% "scaldi" % "0.5.4",
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "com.typesafe.play" %% "play-test" % "2.4.0-M2" % "test"
+  "com.typesafe.play" %% "play-test" % "2.4.0-M2" % "test",
+  "com.typesafe.play" %% "play-cache" % "2.4.0-M2" % "test" // cache plugin add extra bindings which have some specualties and willbe tested automatically
 )
 
 git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"
