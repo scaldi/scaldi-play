@@ -34,7 +34,7 @@ class ScaldiInjector(useCache: Boolean)(implicit inj: Injector) extends PlayInje
     }
 
   private def getActualBinding(key: BindingKey[_]): (Option[Any], Boolean, List[Identifier]) = {
-    val (_, identifiers) = ScaldiApplicationLoader.identifiersForKey(key)
+    val (_, identifiers) = ScaldiBuilder.identifiersForKey(key)
 
     val binding = inj getBinding identifiers
 

@@ -8,14 +8,15 @@ licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/
 
 scalaVersion := "2.11.5"
 scalacOptions ++= Seq("-deprecation", "-feature")
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play" % "2.4.0-M2" % "provided",
+  "com.typesafe.play" %% "play" % "2.4.0-M3" % "provided",
   "org.scaldi" %% "scaldi" % "0.5.4",
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "com.typesafe.play" %% "play-test" % "2.4.0-M2" % "test",
-  "com.typesafe.play" %% "play-cache" % "2.4.0-M2" % "test" // cache plugin add extra bindings which have some specualties and willbe tested automatically
+  "com.typesafe.play" %% "play-test" % "2.4.0-M3" % "test",
+  "com.typesafe.play" %% "play-cache" % "2.4.0-M3" % "test" // cache plugin add extra bindings which have some specualties and willbe tested automatically
 )
 
 git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"

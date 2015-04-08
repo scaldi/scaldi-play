@@ -2,8 +2,8 @@ package scaldi.play
 
 import org.scalatest.{WordSpec, Matchers}
 import play.api.{Application, Play, GlobalSettings}
-import play.api.test.FakeApplication
-import scaldi.{Injectable, Module, Injector}
+import scaldi.{Injectable, Module}
+import ScaldiApplicationBuilder._
 
 object ScaldiSupportTest {
   object DummySevice {
@@ -52,35 +52,27 @@ class ScaldiSupportTest extends WordSpec with Matchers {
 
   "ScaldiSupport" should {
     "reinit with Global object" in {
-      // TODO: fake application is deprecated and need to be replaced with something else
-      def createApp = FakeApplication(
-        withGlobal = Some(Global),
-        additionalConfiguration = Map(
-          "play.application.loader" -> "scaldi.play.ScaldiApplicationLoader")) // TODO: improve... it looks terrible
-
       Global.startCount should equal(0)
       DummySevice.instanceCount should equal(0)
       DummySevice.stopCount should equal(0)
 
       withClue("first run") {
-        val app = createApp
+        withScaldiApp(global = Some(Global)) {
+          Global.startCount should equal(1)
+          DummySevice.instanceCount should equal(1)
+          DummySevice.stopCount should equal(0)
+        }
 
-        Play.start(app)
-        Play.stop(app)
-
-        Global.startCount should equal(1)
-        DummySevice.instanceCount should equal(1)
         DummySevice.stopCount should equal(1)
       }
 
       withClue("second run") {
-        val app = createApp
+        withScaldiApp(global = Some(Global)) {
+          Global.startCount should equal(2)
+          DummySevice.instanceCount should equal(2)
+          DummySevice.stopCount should equal(1)
+        }
 
-        Play.start(app)
-        Play.stop(app)
-
-        Global.startCount should equal(2)
-        DummySevice.instanceCount should equal(2)
         DummySevice.stopCount should equal(2)
       }
     }
