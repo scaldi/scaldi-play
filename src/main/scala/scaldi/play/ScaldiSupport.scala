@@ -89,6 +89,7 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
   protected def getBoundInstance[A](controllerClass: Class[A]): Either[String, A] = {
     val runtimeMirror = runtime.universe.runtimeMirror(controllerClass.getClassLoader)
     val identifier = TypeTagIdentifier(runtimeMirror.classSymbol(controllerClass).toType)
+
     injector.getBinding(List(identifier)).map {
       binding => binding.get.map {
         bound => Right(bound.asInstanceOf[A])
