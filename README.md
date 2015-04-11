@@ -7,6 +7,6 @@ in Play 2 application. ([Tutorial can be found here](http://hacking-scala.tumblr
 
 SBT Configuration:
 
-    libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.3"
+    libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.4"
 
 [![Build Status](https://travis-ci.org/scaldi/scaldi-play.png)](https://travis-ci.org/scaldi/scaldi-play) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.11)

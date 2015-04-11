@@ -1,3 +1,9 @@
+## v0.5.4 (11.04.2015)
+
+* Updated to scaldi version 0.5.4
+* Controller cache is smarter now and takes `isCacheable` binding property into a consideration. This means, for example, thet
+  controllers bound with `toProvider` are no longer cached.
+
 ## v0.5.3 (03.02.2015)
 
 * Updated to scaldi version 0.5.3
