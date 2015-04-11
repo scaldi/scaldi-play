@@ -78,24 +78,28 @@ trait ScaldiSupport extends GlobalSettings with Injectable {
   private val controllerCache = TrieMap[Class[_], Any]()
 
   override def getControllerInstance[A](controllerClass: Class[A]): A = {
-    controllerCache.getOrElseUpdate(controllerClass, {
-      getBoundInstance(controllerClass).fold(msg => throw new IllegalStateException(msg), a => a)
-    }).asInstanceOf[A]
+    controllerCache.get(controllerClass) match {
+      case Some(controller) => controller.asInstanceOf[A]
+      case None =>
+        val (controller, cacheable) = getBoundInstance(controllerClass).fold(msg => throw new IllegalStateException(msg), a => a)
+
+        if (cacheable)
+          controllerCache(controllerClass) = controller
+
+        controller.asInstanceOf[A]
+    }
   }
 
   /**
    * As this involves a little bit of reflection, calls should be cached.
    */
-  protected def getBoundInstance[A](controllerClass: Class[A]): Either[String, A] = {
+  protected def getBoundInstance[A](controllerClass: Class[A]): Either[String, (A, Boolean)] = {
     val runtimeMirror = runtime.universe.runtimeMirror(controllerClass.getClassLoader)
     val identifier = TypeTagIdentifier(runtimeMirror.classSymbol(controllerClass).toType)
 
-    injector.getBinding(List(identifier)).map {
-      binding => binding.get.map {
-        bound => Right(bound.asInstanceOf[A])
-      }.getOrElse {
-        Left(s"Controller for class $controllerClass is explicitly un-bound!")
-      }
+    injector.getBinding(List(identifier)).map { binding =>
+      binding.get.map(bound => Right(bound.asInstanceOf[A] -> binding.isCacheable)).getOrElse (
+        Left(s"Controller for class $controllerClass is explicitly un-bound!"))
     } getOrElse {
       Left(s"Controller for class $controllerClass not found!")
     }
