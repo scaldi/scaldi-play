@@ -1,8 +1,9 @@
 package scaldi.play
 
 import org.scalatest.{WordSpec, Matchers}
+import play.api.cache.CacheApi
 import play.api.{Application, Play, GlobalSettings}
-import scaldi.{Injectable, Module}
+import scaldi.{Injector, Injectable, Module}
 import ScaldiApplicationBuilder._
 
 object ScaldiSupportTest {
@@ -11,7 +12,9 @@ object ScaldiSupportTest {
     var stopCount: Int = 0
   }
 
-  class DummyService {
+  class DummyService(implicit inj: Injector) extends Injectable {
+    val cache = inject [CacheApi]
+
     import DummySevice._
 
     instanceCount += 1

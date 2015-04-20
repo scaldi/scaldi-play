@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "com.typesafe.play" %% "play-test" % "2.4.0-M3" % "test",
-  "com.typesafe.play" %% "play-cache" % "2.4.0-M3" % "test" // cache plugin add extra bindings which have some specualties and willbe tested automatically
+  "com.typesafe.play" %% "play-cache" % "2.4.0-M3" % "test" // cache plugin add extra bindings which have some specialties and will be tested automatically
 )
 
 git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"

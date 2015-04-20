@@ -188,11 +188,11 @@ object ScaldiBuilder extends Injectable {
 
       binding.target match {
         case Some(BindingKeyTarget(key)) if singleton && binding.eager =>
-          NonLazyBinding(Some(() => injectWithDefault(inj, noBindingFound(identifiers))(identifiers)), identifiers)
+          NonLazyBinding(Some(() => injectWithDefault[Any](inj, noBindingFound(identifiers))(identifiersForKey(key)._2)), identifiers)
         case Some(BindingKeyTarget(key)) if singleton =>
-          LazyBinding(Some(() => injectWithDefault(inj, noBindingFound(identifiers))(identifiers)), identifiers)
+          LazyBinding(Some(() => injectWithDefault[Any](inj, noBindingFound(identifiers))(identifiersForKey(key)._2)), identifiers)
         case Some(BindingKeyTarget(key)) =>
-          ProviderBinding(() => injectWithDefault(inj, noBindingFound(identifiers))(identifiers), identifiers)
+          ProviderBinding(() => injectWithDefault[Any](inj, noBindingFound(identifiers))(identifiersForKey(key)._2), identifiers)
 
         case Some(ProviderTarget(provider)) =>
           AnnotationBinding(
