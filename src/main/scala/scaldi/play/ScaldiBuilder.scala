@@ -77,10 +77,10 @@ abstract class ScaldiBuilder[Self] protected (
   final def disable[T](implicit tag: ClassTag[T]): Self = disable(tag.runtimeClass)
 
   final def appendModule(ms: CanBeScaldiInjector*): Self =
-    copyBuilder(modules = ms ++ modules)
+    copyBuilder(modules = modules ++ ms)
 
   final def prependModule(ms: CanBeScaldiInjector*): Self =
-    copyBuilder(modules = modules ++ ms)
+    copyBuilder(modules = ms ++ modules)
 
   def injector: PlayInjector = createInjector
   
