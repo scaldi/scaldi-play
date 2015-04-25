@@ -146,10 +146,14 @@ object ScaldiBuilder extends Injectable {
       case _ => // there is nothing to init
     }
 
+    ScaldiSupport.currentInj = Some(injector)
+
     injector match {
       case lm: LifecycleManager =>
         inject [ApplicationLifecycle] addStopHook { () =>
           lm.destroy()
+
+          ScaldiSupport.currentInj = None
 
           Future.successful(())
         }
