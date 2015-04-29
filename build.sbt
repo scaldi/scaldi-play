@@ -1,12 +1,12 @@
 name := "scaldi-play"
 organization := "org.scaldi"
-version := "0.5-play-2.4.0-RC1-9-SNAPSHOT"
+version := "0.5-play-2.4.0-RC1-9"
 
 description := "Scaldi-Play - Scaldi integration for Play framework"
 homepage := Some(url("http://scaldi.org"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-scalaVersion := "2.11.5"
+scalaVersion := "2.11.6"
 scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 
