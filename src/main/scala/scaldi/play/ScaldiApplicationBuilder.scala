@@ -63,7 +63,7 @@ final class ScaldiApplicationBuilder(
 
     // TODO: Logger should be application specific, and available via dependency injection.
     //       Creating multiple applications will stomp on the global logger configuration.
-    Logger.configure(environment)
+    Logger.configure(environment, appConfiguration)
 
     val loadedModules = loadModules(environment, appConfiguration)
     val cacheControllers = configuration.getBoolean("scaldi.controller.cache") getOrElse true

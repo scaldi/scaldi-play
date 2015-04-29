@@ -224,12 +224,18 @@ object ScaldiBuilder extends Injectable {
 
           ProviderBinding(() => injectWithDefault[Any](inj, noBindingFound(implIds))(implIds), identifiers)
         case None =>
+          // FIXME: Workaround for: https://github.com/playframework/playframework/pull/4200
+          val fixedScope = if (keyType <:< typeOf[DefaultApplicationLifecycle])
+            Some(typeOf[javax.inject.Singleton])
+          else
+            scope
+
           AnnotationBinding(
             instanceOrType = Right(keyType),
             injector = () => inj,
             identifiers = identifiers,
             eager = binding.eager,
-            forcedScope = scope)
+            forcedScope = fixedScope)
       }
     }
 
