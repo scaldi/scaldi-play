@@ -191,7 +191,7 @@ object ScaldiBuilder extends Injectable {
       val (keyType, identifiers) = identifiersForKey(binding.key)
 
       binding.target match {
-        case Some(BindingKeyTarget(key)) if singleton && binding.eager =>
+        case Some(BindingKeyTarget(key)) if binding.eager =>
           NonLazyBinding(Some(() => injectWithDefault[Any](inj, noBindingFound(identifiers))(identifiersForKey(key)._2)), identifiers)
         case Some(BindingKeyTarget(key)) if singleton =>
           LazyBinding(Some(() => injectWithDefault[Any](inj, noBindingFound(identifiers))(identifiersForKey(key)._2)), identifiers)
@@ -206,28 +206,30 @@ object ScaldiBuilder extends Injectable {
             eager = binding.eager,
             forcedScope = scope,
             bindingConverter = Some(_.asInstanceOf[Provider[AnyRef]].get()))
-        case Some(ProviderConstructionTarget(provider)) =>
+
+        case Some(ProviderConstructionTarget(provider)) if binding.eager =>
+          val providerIds = List[Identifier](ReflectionHelper.classToType(provider))
+
+          NonLazyBinding(Some(() => {println(providerIds); println(identifiers); injectWithDefault[Provider[_]](inj, noBindingFound(providerIds))(providerIds).get()}), identifiers)
+        case Some(ProviderConstructionTarget(provider)) if singleton =>
           val providerIds = List[Identifier](ReflectionHelper.classToType(provider))
 
           LazyBinding(Some(() => injectWithDefault[Provider[_]](inj, noBindingFound(providerIds))(providerIds).get()), identifiers)
+        case Some(ProviderConstructionTarget(provider)) =>
+          val providerIds = List[Identifier](ReflectionHelper.classToType(provider))
+
+          ProviderBinding(() => injectWithDefault[Provider[_]](inj, noBindingFound(providerIds))(providerIds).get(), identifiers)
         case Some(ConstructionTarget(impl)) =>
           val implIds = List[Identifier](ReflectionHelper.classToType(impl))
 
           ProviderBinding(() => injectWithDefault[Any](inj, noBindingFound(implIds))(implIds), identifiers)
         case None =>
-          // FIXME: Workaround for: https://github.com/playframework/playframework/pull/4200
-          val fixedScope = if (keyType <:< typeOf[DefaultApplicationLifecycle])
-            Some(typeOf[javax.inject.Singleton])
-          else
-            scope
-
-
           AnnotationBinding(
             instanceOrType = Right(keyType),
             injector = () => inj,
             identifiers = identifiers,
             eager = binding.eager,
-            forcedScope = fixedScope)
+            forcedScope = scope)
       }
     }
 

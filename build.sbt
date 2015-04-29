@@ -12,7 +12,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % "2.4.0-RC1" % "provided",
-  "org.scaldi" %% "scaldi" % "0.5.4",
+  "org.scaldi" %% "scaldi" % "0.5.5",
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "com.typesafe.play" %% "play-test" % "2.4.0-RC1" % "test",
