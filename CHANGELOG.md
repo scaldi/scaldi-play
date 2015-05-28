@@ -1,3 +1,8 @@
+## v0.5.6 (TBD)
+
+* TODO
+* Play 2.4.0
+
 ## v0.5.5 (29.04.2015)
 
 * Updated to scaldi version 0.5.5

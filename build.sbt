@@ -6,19 +6,23 @@ description := "Scaldi-Play - Scaldi integration for Play framework"
 homepage := Some(url("http://scaldi.org"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-scalaVersion := "2.11.5"
+scalaVersion := "2.11.6"
 scalacOptions ++= Seq("-deprecation", "-feature")
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play" % "2.3.8" % "provided",
-  "org.scaldi" %% "scaldi" % "0.5.5",
+  "com.typesafe.play" %% "play" % "2.4.0" % "provided",
+  "org.scaldi" %% "scaldi-jsr330" % "0.5.6",
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "com.typesafe.play" %% "play-test" % "2.3.8" % "test"
+  "com.typesafe.play" %% "play-test" % "2.4.0" % "test",
+  "com.typesafe.play" %% "play-cache" % "2.4.0" % "test" // cache plugin add extra bindings which have some specialties and will be tested automatically
 )
 
 git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"
-resolvers += "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/"
+resolvers ++= Seq(
+  "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/",
+  "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases")
 
 // Site and docs
 

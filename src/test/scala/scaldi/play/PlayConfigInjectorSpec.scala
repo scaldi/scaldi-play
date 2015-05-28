@@ -1,11 +1,10 @@
 package scaldi.play
 
-import com.typesafe.config.{ConfigFactory, Config}
+import com.typesafe.config.ConfigFactory
 import org.scalatest.{Matchers, WordSpec}
-import play.api.test.FakeApplication
-import play.api.{Configuration, Play, Application, GlobalSettings}
+import play.api.Configuration
+import scaldi.play.ScaldiApplicationBuilder._
 import scaldi.{Injectable, Module, Injector}
-import play.api.test.Helpers._
 
 class PlayConfigInjectorSpec extends WordSpec with Matchers {
   class DummyService(implicit inj: Injector) extends Injectable {
@@ -17,17 +16,12 @@ class PlayConfigInjectorSpec extends WordSpec with Matchers {
 
   "Play configuration injector" should {
     "inject strings and ints" in {
-      val global = new ScaldiSupport {
-        override def applicationModule: Injector = new Module {
-          binding to new DummyService
-        }
-
-        override def configuration = Configuration(ConfigFactory.load())
+      val testModule = new Module {
+        binding to new DummyService
       }
 
-      running(FakeApplication(withGlobal = Some(global))) {
+      withScaldiInj(modules = Seq(testModule), configuration = Configuration(ConfigFactory.load())) { implicit inj =>
         import Injectable._
-        implicit val injector = global.injector
 
         inject[DummyService].hi should be ("Hi, str = 123, int = 457")
       }

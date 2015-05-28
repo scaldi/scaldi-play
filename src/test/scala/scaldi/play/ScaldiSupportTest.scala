@@ -1,10 +1,10 @@
 package scaldi.play
 
 import org.scalatest.{WordSpec, Matchers}
+import play.api.cache.CacheApi
 import play.api.{Application, Play, GlobalSettings}
-import play.api.test.FakeApplication
-import scaldi.{Module, Injector}
-import play.api.test.Helpers._
+import scaldi.{Injector, Injectable, Module}
+import ScaldiApplicationBuilder._
 
 object ScaldiSupportTest {
   object DummySevice {
@@ -12,7 +12,9 @@ object ScaldiSupportTest {
     var stopCount: Int = 0
   }
 
-  class DummyService {
+  class DummyService(implicit inj: Injector) extends Injectable {
+    val cache = inject [CacheApi]
+
     import DummySevice._
 
     instanceCount += 1
@@ -33,26 +35,17 @@ object ScaldiSupportTest {
     }
   }
 
-  object Global extends GlobalSettings with ScaldiSupport with Matchers {
+  object Global extends GlobalSettings with ScaldiSupport with Matchers with Injectable {
     var startCount: Int = 0
-    var stopCount: Int = 0
 
-    override def applicationModule: Injector = new Module {
-      binding to new DummyService destroyWith(_.stop())
+    override def applicationModule = new Module {
+      binding toNonLazy new DummyService destroyWith(_.stop())
     }
 
     override def onStart(app: Application): Unit = {
       super.onStart(app)
 
       startCount += 1
-
-      inject[DummyService].hi should equal("hello")
-    }
-
-    override def onStop(app: Application) = {
-      super.onStop(app)
-
-      stopCount += 1
     }
   }
 }
@@ -62,32 +55,28 @@ class ScaldiSupportTest extends WordSpec with Matchers {
 
   "ScaldiSupport" should {
     "reinit with Global object" in {
-      val app = FakeApplication(
-        withGlobal = Some(Global)
-      )
-
-      Global.startCount should equal (0)
-      Global.stopCount should equal (0)
-      DummySevice.instanceCount should equal (0)
-      DummySevice.stopCount should equal (0)
+      Global.startCount should equal(0)
+      DummySevice.instanceCount should equal(0)
+      DummySevice.stopCount should equal(0)
 
       withClue("first run") {
-        running(app) {/* do nothing */}
+        withScaldiApp(global = Some(Global)) {
+          Global.startCount should equal(1)
+          DummySevice.instanceCount should equal(1)
+          DummySevice.stopCount should equal(0)
+        }
 
-        Global.startCount should equal (1)
-        Global.stopCount should equal (1)
-        DummySevice.instanceCount should equal (1)
-        DummySevice.stopCount should equal (1)
+        DummySevice.stopCount should equal(1)
       }
 
-
       withClue("second run") {
-        running(app) {/* do nothing */}
+        withScaldiApp(global = Some(Global)) {
+          Global.startCount should equal(2)
+          DummySevice.instanceCount should equal(2)
+          DummySevice.stopCount should equal(1)
+        }
 
-        Global.startCount should equal (2)
-        Global.stopCount should equal (2)
-        DummySevice.instanceCount should equal (2)
-        DummySevice.stopCount should equal (2)
+        DummySevice.stopCount should equal(2)
       }
     }
   }

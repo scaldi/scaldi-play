@@ -1,9 +1,11 @@
 package scaldi.play
 
-import _root_.play.api.{Application, Play}
+import play.api.{Application, Play}
 import play.api.mvc.Controller
 import scaldi._
+
 import scala.reflect.runtime.universe.{Type, runtimeMirror, typeTag}
+import java.lang.reflect.InvocationTargetException
 
 /**
  * <p>Injector for the Play applications that creates controller bindings on the fly.
@@ -56,9 +58,13 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
           val mirror = runtimeMirror(app.classloader)
           val constructorMirror = mirror.reflectClass(tpe.typeSymbol.asClass).reflectConstructor(constructor)
 
-          constructor.paramLists match {
-            case List(Nil, List(paramType)) => constructorMirror(injector)
-            case List(Nil) => constructorMirror()
+          try {
+            constructor.paramLists match {
+              case List(Nil, List(paramType)) => constructorMirror(injector)
+              case List(Nil) => constructorMirror()
+            }
+          } catch {
+            case e: InvocationTargetException => throw e.getCause
           }
         }
         .getOrElse (throw new IllegalArgumentException(
