@@ -3,6 +3,11 @@
 * TODO
 * Play 2.4.0
 
+## v0.5.6-RC1 (29.05.2015)
+
+* Merged play-2.4 branch with all 2.4.0 related changes
+* Updated to Play 2.4.0
+
 ## v0.5.5 (29.04.2015)
 
 * Updated to scaldi version 0.5.5
