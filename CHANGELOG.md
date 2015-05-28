@@ -1,3 +1,8 @@
+## v0.5.6 (28.05.2015)
+
+* Name of the project changed to reflect compatibility with Play 2.3.x
+* Updated to scaldi version 0.5.6
+
 ## v0.5.5 (29.04.2015)
 
 * Updated to scaldi version 0.5.5
