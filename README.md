@@ -7,7 +7,7 @@ in Play 2 application. ([Tutorial can be found here](http://hacking-scala.tumblr
 
 SBT Configuration (Play 2.3.x):
 
-    libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.5"
+    libraryDependencies += "org.scaldi" %% "scaldi-play-23" % "0.5.6"
 
 SBT Configuration (Play 2.4.x):
 
