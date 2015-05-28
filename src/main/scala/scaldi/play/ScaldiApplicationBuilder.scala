@@ -4,7 +4,7 @@ import play.api._
 import play.api.inject.{Injector => PlayInjector, Module => _, _}
 import play.core.{DefaultWebCommands, WebCommands}
 
-import scaldi.{NilInjector, Module}
+import scaldi.{Injector, NilInjector, Module}
 
 final class ScaldiApplicationBuilder(
   environment: Environment = Environment.simple(),
@@ -55,7 +55,10 @@ final class ScaldiApplicationBuilder(
   /**
    * Create a new Play Injector for an Application using this configured builder.
    */
-  override def injector: PlayInjector = {
+  override def injector: PlayInjector =
+    realInjector._2
+
+  protected def realInjector: (Injector, PlayInjector) = {
     val initialConfiguration = loadConfiguration(environment)
     val globalSettings = global getOrElse GlobalSettings(initialConfiguration, environment)
     val loadedConfiguration = globalSettings.onLoadConfig(initialConfiguration, environment.rootPath, environment.classLoader, environment.mode)
@@ -92,6 +95,12 @@ final class ScaldiApplicationBuilder(
    */
   def build(): Application = injector.instanceOf[Application]
 
+  def buildInjector(): (Injector, Application) = {
+    val (scaldiInj, playInj) = realInjector
+
+    scaldiInj -> playInj.instanceOf[Application]
+  }
+
   /**
    * Internal copy method with defaults.
    */
@@ -126,6 +135,21 @@ object ScaldiApplicationBuilder {
     try {
       Play.start(app)
       fn
+    } finally Play.stop(app)
+  }
+
+  def withScaldiInj[T](environment: Environment = Environment.simple(),
+                       configuration: Configuration = Configuration.empty,
+                       modules: Seq[CanBeScaldiInjector] = Seq.empty,
+                       disabled: Seq[Class[_]] = Seq.empty,
+                       loadConfiguration: Environment => Configuration = Configuration.load,
+                       global: Option[GlobalSettings] = None,
+                       loadModules: (Environment, Configuration) => Seq[CanBeScaldiInjector] = ScaldiBuilder.loadModules)(fn: Injector => T) = {
+    val (inj, app) = new ScaldiApplicationBuilder(environment, configuration, modules, disabled, loadConfiguration, global, loadModules).buildInjector()
+
+    try {
+      Play.start(app)
+      fn(inj)
     } finally Play.stop(app)
   }
 }
