@@ -1,4 +1,4 @@
-name := "scaldi-play-2.3"
+name := "scaldi-play-23"
 organization := "org.scaldi"
 version := "0.5.6"
 
