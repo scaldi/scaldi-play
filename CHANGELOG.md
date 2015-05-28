@@ -1,3 +1,25 @@
+## v0.5.5 (29.04.2015)
+
+* Updated to scaldi version 0.5.5
+
+## v0.5.4 (11.04.2015)
+
+* Updated to scaldi version 0.5.4
+* Controller cache is smarter now and takes `isCacheable` binding property into a consideration. This means, for example, that
+  controllers bound with `toProvider` are no longer cached.
+
+## v0.5.3 (03.02.2015)
+
+* Updated to scaldi version 0.5.3
+
+## v0.5.2 (02.02.2015)
+
+* Updated to scaldi version 0.5.2
+
+## v0.5.1 (01.02.2015)
+
+* Updated to scaldi version 0.5.1
+
 ## v0.5 (31.01.2015)
 
 * Updated to play version 2.3.7

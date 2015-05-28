@@ -1,6 +1,6 @@
 name := "scaldi-play"
 organization := "org.scaldi"
-version := "0.5-play-2.4.0-RC3-11-SNAPSHOT"
+version := "0.5.6-SNAPSHOT"
 
 description := "Scaldi-Play - Scaldi integration for Play framework"
 homepage := Some(url("http://scaldi.org"))
@@ -12,8 +12,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % "2.4.0" % "provided",
-  //"org.scaldi" %% "scaldi-jsr330" % "0.5.6-SNAPSHOT",
-  "org.scaldi" %% "scaldi" % "0.5.5",
+  "org.scaldi" %% "scaldi-jsr330" % "0.5.6",
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "com.typesafe.play" %% "play-test" % "2.4.0" % "test",
