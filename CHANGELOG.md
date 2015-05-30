@@ -1,7 +1,17 @@
-## v0.5.6 (TBD)
+## v0.5.6 (30.05.2015)
 
-* TODO
-* Play 2.4.0
+* Play 2.4.0 support :star2:
+  * Added `ScaldiApplicationLoader` which can be configured in `application.conf` to enable scaldi support. Fo example:
+    ```
+    play.application.loader = scaldi.play.ScaldiApplicationLoader
+
+    play.modules.enabled += "modules.UserModule"
+    play.modules.enabled += "modules.ServerModule"
+    play.modules.enabled += "scaldi.play.ControllerInjector"
+    ```
+  * Added `ScaldiApplicationBuilder`, `ScaldiBuilder` and `FakeRouterModule` for testing support
+* `ScaldiSupport` is deprecated in favour of new 2.4.0 DI configuration method through `application.conf`
+* Updated to scaldi v0.5.6 and added new scaldi-jsr330 v0.5.6 dependency in order to support play 2.4.0 JSR 330 bindings and DI mechanism
 
 ## v0.5.6-RC1 (29.05.2015)
 
