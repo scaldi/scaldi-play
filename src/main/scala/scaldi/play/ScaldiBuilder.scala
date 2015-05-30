@@ -250,6 +250,10 @@ final class ScaldiInjectorBuilder(
    * Create a Play Injector backed by Scaldi using this configured builder.
    */
   def build(): PlayInjector = createInjector._2
+
+  /**
+   * Create a Scaldi Injector using this configured builder.
+   */
   def buildInj(): Injector = createInjector._1
 
   protected def newBuilder(
@@ -266,7 +270,6 @@ trait CanBeScaldiInjector {
 }
 
 object CanBeScaldiInjector {
-
   import scala.language.implicitConversions
 
   implicit def fromScaldiInjector(inj: Injector): CanBeScaldiInjector = fromScaldiInjectors(Seq(inj))

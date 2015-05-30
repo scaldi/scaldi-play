@@ -1,7 +1,7 @@
 package scaldi.play
 
 import play.api.inject.{BindingKey, Injector => PlayInjector}
-import scaldi.Injectable.{injectWithDefault, noBindingFound}
+import scaldi.Injectable.noBindingFound
 import scaldi._
 
 import scala.collection.concurrent.TrieMap
@@ -17,7 +17,7 @@ class ScaldiInjector(useCache: Boolean)(implicit inj: Injector) extends PlayInje
     instanceOf(BindingKey(clazz))
 
   def instanceOf[T](key: BindingKey[T]) =
-    if (useCache)
+    if (useCache) {
       cache.get(key).getOrElse {
         val (actual, allowedToCache, ids) = getActualBinding(key)
         val valueFn = () => actual getOrElse noBindingFound(ids)
@@ -27,7 +27,7 @@ class ScaldiInjector(useCache: Boolean)(implicit inj: Injector) extends PlayInje
 
         valueFn
       }().asInstanceOf[T]
-    else {
+    } else {
       val (actual, _, ids) = getActualBinding(key)
 
       actual map (_.asInstanceOf[T]) getOrElse noBindingFound(ids)

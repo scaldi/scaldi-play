@@ -129,7 +129,6 @@ class BuiltinScaldiModule(global: GlobalSettings, cacheControllers: Boolean) ext
 }
 
 object ScaldiApplicationBuilder {
-
   /**
    * Helper function that allows to construct a Play `Application` and execute a function while it's running.
    */
