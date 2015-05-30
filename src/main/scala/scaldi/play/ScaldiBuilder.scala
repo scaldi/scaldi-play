@@ -208,7 +208,7 @@ object ScaldiBuilder extends Injectable {
         case Some(ProviderConstructionTarget(provider)) if binding.eager =>
           val providerIds = List[Identifier](ReflectionHelper.classToType(provider))
 
-          NonLazyBinding(Some(() => {println(providerIds); println(identifiers); injectWithDefault[Provider[_]](inj, noBindingFound(providerIds))(providerIds).get()}), identifiers)
+          NonLazyBinding(Some(() => injectWithDefault[Provider[_]](inj, noBindingFound(providerIds))(providerIds).get()), identifiers)
         case Some(ProviderConstructionTarget(provider)) if singleton =>
           val providerIds = List[Identifier](ReflectionHelper.classToType(provider))
 
