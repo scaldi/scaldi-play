@@ -4,13 +4,13 @@
 
 You can find more information at the [hope page of the project](http://scaldi.org) and ["Play Integration"](http://scaldi.org/learn/#play-integration) section of the documentation.
 
-SBT Configuration (Play 2.3.x):
-
-    libraryDependencies += "org.scaldi" %% "scaldi-play-23" % "0.5.6"
-
 SBT Configuration (Play 2.4.x):
 
     libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.6"
+
+SBT Configuration (Play 2.3.x):
+
+    libraryDependencies += "org.scaldi" %% "scaldi-play-23" % "0.5.6"
 
 [![Build Status](https://travis-ci.org/scaldi/scaldi-play.png)](https://travis-ci.org/scaldi/scaldi-play) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.11)
 
