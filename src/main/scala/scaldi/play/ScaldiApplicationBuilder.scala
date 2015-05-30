@@ -4,8 +4,11 @@ import play.api._
 import play.api.inject.{Injector => PlayInjector, Module => _, _}
 import play.core.{DefaultWebCommands, WebCommands}
 
-import scaldi.{Injector, NilInjector, Module}
+import scaldi.{Injectable, Injector, NilInjector, Module}
 
+/**
+ * A builder for creating Applications using Scaldi.
+ */
 final class ScaldiApplicationBuilder(
   environment: Environment = Environment.simple(),
   configuration: Configuration = Configuration.empty,
@@ -15,7 +18,6 @@ final class ScaldiApplicationBuilder(
   global: Option[GlobalSettings] = None,
   loadModules: (Environment, Configuration) => Seq[CanBeScaldiInjector] = ScaldiBuilder.loadModules
 ) extends ScaldiBuilder[ScaldiApplicationBuilder](environment, configuration, modules, disabled) {
-  // extra constructor for creating from Java
   def this() = this(environment = Environment.simple())
 
   /**
@@ -52,12 +54,6 @@ final class ScaldiApplicationBuilder(
   def load(modules: CanBeScaldiInjector*): ScaldiApplicationBuilder =
     load((env, conf) => modules)
 
-  /**
-   * Create a new Play Injector for an Application using this configured builder.
-   */
-  override def injector: PlayInjector =
-    realInjector._2
-
   protected def realInjector: (Injector, PlayInjector) = {
     val initialConfiguration = loadConfiguration(environment)
     val globalSettings = global getOrElse GlobalSettings(initialConfiguration, environment)
@@ -67,6 +63,9 @@ final class ScaldiApplicationBuilder(
     // TODO: Logger should be application specific, and available via dependency injection.
     //       Creating multiple applications will stomp on the global logger configuration.
     Logger.configure(environment)
+
+    if (appConfiguration.underlying.hasPath("logger"))
+      Logger.warn("Logger configuration in conf files is deprecated and has no effect. Use a logback configuration file instead.")
 
     val loadedModules = loadModules(environment, appConfiguration)
     val cacheControllers = configuration.getBoolean("scaldi.controller.cache") getOrElse true
@@ -79,27 +78,25 @@ final class ScaldiApplicationBuilder(
     copy(configuration = appConfiguration)
         .appendModule(globalInjector)
         .appendModule(loadedModules: _*)
-        .appendModule(new Module {
-          bind [GlobalSettings] to globalSettings
-          bind [OptionalSourceMapper] to new OptionalSourceMapper(None)
-          bind [WebCommands] to new DefaultWebCommands
-          bind [PlayInjector] to new ScaldiInjector(cacheControllers)
-
-          binding identifiedBy 'playMode to inject[Application].mode
-        })
+        .appendModule(new BuiltinScaldiModule(globalSettings, cacheControllers))
         .createInjector
   }
 
   /**
-   * Create a new Play Application using this configured builder.
+   * Create a new Play Application using this configured builder. In order ti get the underlying injector instead, please use `buildInj`
+   * or `buildPlayInj` instead.
    */
-  def build(): Application = injector.instanceOf[Application]
+  def build(): Application = realInjector._2.instanceOf[Application]
 
-  def buildInjector(): (Injector, Application) = {
-    val (scaldiInj, playInj) = realInjector
+  /**
+   * Create a new Scaldi Injector for an Application using this configured builder.
+   */
+  def buildInj(): Injector = realInjector._1
 
-    scaldiInj -> playInj.instanceOf[Application]
-  }
+  /**
+   * Create a new Play Injector for an Application using this configured builder.
+   */
+  def buildPlayInj(): PlayInjector = realInjector._2
 
   /**
    * Internal copy method with defaults.
@@ -122,7 +119,20 @@ final class ScaldiApplicationBuilder(
     copy(environment, configuration, modules, disabled)
 }
 
+class BuiltinScaldiModule(global: GlobalSettings, cacheControllers: Boolean) extends Module {
+  bind [GlobalSettings] to global
+  bind [OptionalSourceMapper] to new OptionalSourceMapper(None)
+  bind [WebCommands] to new DefaultWebCommands
+  bind [PlayInjector] to new ScaldiInjector(cacheControllers)
+
+  binding identifiedBy 'playMode to inject[Application].mode
+}
+
 object ScaldiApplicationBuilder {
+
+  /**
+   * Helper function that allows to construct a Play `Application` and execute a function while it's running.
+   */
   def withScaldiApp[T](environment: Environment = Environment.simple(),
                        configuration: Configuration = Configuration.empty,
                        modules: Seq[CanBeScaldiInjector] = Seq.empty,
@@ -138,6 +148,10 @@ object ScaldiApplicationBuilder {
     } finally Play.stop(app)
   }
 
+  /**
+   * Helper function that allows to construct a Play `Application` and execute a function while it's running. This variation allows you to also
+   * get scaldi `Injector` of this application.
+   */
   def withScaldiInj[T](environment: Environment = Environment.simple(),
                        configuration: Configuration = Configuration.empty,
                        modules: Seq[CanBeScaldiInjector] = Seq.empty,
@@ -145,7 +159,8 @@ object ScaldiApplicationBuilder {
                        loadConfiguration: Environment => Configuration = Configuration.load,
                        global: Option[GlobalSettings] = None,
                        loadModules: (Environment, Configuration) => Seq[CanBeScaldiInjector] = ScaldiBuilder.loadModules)(fn: Injector => T) = {
-    val (inj, app) = new ScaldiApplicationBuilder(environment, configuration, modules, disabled, loadConfiguration, global, loadModules).buildInjector()
+    implicit val inj = new ScaldiApplicationBuilder(environment, configuration, modules, disabled, loadConfiguration, global, loadModules).buildInj()
+    val app = Injectable.inject[Application]
 
     try {
       Play.start(app)

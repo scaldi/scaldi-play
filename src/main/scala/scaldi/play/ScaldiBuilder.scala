@@ -81,8 +81,6 @@ abstract class ScaldiBuilder[Self] protected (
 
   final def prependModule(ms: CanBeScaldiInjector*): Self =
     copyBuilder(modules = ms ++ modules)
-
-  def injector: PlayInjector = createInjector._2
   
   protected final def createInjector: (Injector, PlayInjector) = {
     import ScaldiBuilder._
@@ -252,12 +250,7 @@ final class ScaldiInjectorBuilder(
    * Create a Play Injector backed by Scaldi using this configured builder.
    */
   def build(): PlayInjector = createInjector._2
-
-  def buildInjector(): (Injector, PlayInjector) = {
-    val (scaldiInj, playInj) = createInjector
-
-    scaldiInj -> playInj
-  }
+  def buildInj(): Injector = createInjector._1
 
   protected def newBuilder(
       environment: Environment,
