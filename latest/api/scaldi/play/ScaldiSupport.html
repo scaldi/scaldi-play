@@ -28,10 +28,12 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img src="../../lib/trait_big.png" />
+        <a href="ScaldiSupport$.html" title="See companion object"><img src="../../lib/trait_to_object_big.png" /></a>
         <p id="owner"><a href="../package.html" class="extype" name="scaldi">scaldi</a>.<a href="package.html" class="extype" name="scaldi.play">play</a></p>
-        <h1>ScaldiSupport</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="scaldi.play">package play</a>
+        <h1><a href="ScaldiSupport$.html" title="See companion object">ScaldiSupport</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="ScaldiSupport$.html" title="See companion object">object ScaldiSupport</a>
+            | <a href="package.html" class="extype" name="scaldi.play">package play</a>
           </div></span></h3><span class="permalink">
       <a href="../../index.html#scaldi.play.ScaldiSupport" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" />
@@ -45,22 +47,16 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">ScaldiSupport</span><span class="result"> extends <span class="extype" name="play.api.GlobalSettings">GlobalSettings</span> with <span class="extype" name="scaldi.Injectable">Injectable</span></span>
+        <span class="name deprecated" title="Deprecated: (Since version 2015-02-02) GlobalSettings is deprecated so is ScaldiSupport trait">ScaldiSupport</span><span class="result"> extends <span class="extype" name="play.api.GlobalSettings">GlobalSettings</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Adds Scaldi support to the <code>Global</code>.</p><p>If you mix-in <code>ScaldiSupport</code> in the <code>Global</code>, then you need to implement <code>applicationModule</code> method:</p><p><pre class="prettyprint">
-override def applicationModule = new MyAppModule :: new AnotherModule
-</pre></p><p>Implicit <code>Injector</code> would be available in scope so you can use it in different play callbacks like <code>onStart</code>
-and <code>onStop</code> (<code>ScaldiSupport</code> also extends <code>Injectable</code>, so you can use <code>inject</code> without any additional setup):</p><p><pre class="prettyprint">
-override def onStart(app: Application) = {
-  super.onStart(app)
-  val service = inject [Service]
-  ...
-}
-</pre></p><p><code>ScaldiSupport</code> provides following pre-defined bindings:</p><ul><li> <b>playApp</b> - Current play application</li><li> <b>playMode</b> - Current play application's mode (<code>Dev</code>, <code>Prod</code> or <code>Test</code>)</li><li> <b>config</b> - Current play application's configuration (all properties of configuration are also available as bindings)</li></ul></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 2015-02-02)</i> GlobalSettings is deprecated so is ScaldiSupport trait</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scaldi.Injectable">Injectable</span>, <span class="extype" name="scaldi.Wire">Wire</span>, <span class="extype" name="play.api.GlobalSettings">GlobalSettings</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="play.api.GlobalSettings">GlobalSettings</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -78,7 +74,7 @@ override def onStart(app: Application) = {
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="scaldi.play.ScaldiSupport"><span>ScaldiSupport</span></li><li class="in" name="scaldi.Injectable"><span>Injectable</span></li><li class="in" name="scaldi.Wire"><span>Wire</span></li><li class="in" name="play.api.GlobalSettings"><span>GlobalSettings</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="scaldi.play.ScaldiSupport"><span>ScaldiSupport</span></li><li class="in" name="play.api.GlobalSettings"><span>GlobalSettings</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -102,7 +98,7 @@ override def onStart(app: Application) = {
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="scaldi.play.ScaldiSupport#applicationModule" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+              <ol><li name="scaldi.play.ScaldiSupport#applicationModule" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="applicationModule:scaldi.Injector"></a>
       <a id="applicationModule:Injector"></a>
       <h4 class="signature">
@@ -118,8 +114,7 @@ override def onStart(app: Application) = {
         <img src="../../lib/permalink.png" />
       </a>
     </span>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the application module to use
-</p></dd></dl></div>
+      
     </li></ol>
             </div>
 
@@ -210,40 +205,6 @@ override def onStart(app: Application) = {
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd></dl></div>
-    </li><li name="scaldi.Injectable#by" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="by:scaldi.ByWord"></a>
-      <a id="by:ByWord"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">by</span><span class="result">: <span class="extype" name="scaldi.ByWord">ByWord</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@by:scaldi.ByWord" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#canBeIdentifiedToConstraints" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="canBeIdentifiedToConstraints[T](target:T)(implicitevidence$1:scaldi.CanBeIdentifier[T]):scaldi.InjectConstraints[Nothing]"></a>
-      <a id="canBeIdentifiedToConstraints[T](T)(CanBeIdentifier[T]):InjectConstraints[Nothing]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">canBeIdentifiedToConstraints</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="target">target: <span class="extype" name="scaldi.Injectable.canBeIdentifiedToConstraints.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scaldi.CanBeIdentifier">CanBeIdentifier</span>[<span class="extype" name="scaldi.Injectable.canBeIdentifiedToConstraints.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scaldi.InjectConstraints">InjectConstraints</span>[<span class="extype" name="scala.Nothing">Nothing</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@canBeIdentifiedToConstraints[T](target:T)(implicitevidence$1:scaldi.CanBeIdentifier[T]):scaldi.InjectConstraints[Nothing]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -272,7 +233,7 @@ override def onStart(app: Application) = {
       <a id="configuration:Configuration"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -283,7 +244,10 @@ override def onStart(app: Application) = {
         <img src="../../lib/permalink.png" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+        </dd></dl></div>
     </li><li name="play.api.GlobalSettings#doFilter" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="doFilter(next:&lt;?&gt;):play.api.mvc.EssentialAction"></a>
       <a id="doFilter(EssentialAction):EssentialAction"></a>
@@ -375,24 +339,6 @@ override def onStart(app: Application) = {
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="scaldi.play.ScaldiSupport#getBoundInstance" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getBoundInstance[A](controllerClass:Class[A]):Either[String,A]"></a>
-      <a id="getBoundInstance[A](Class[A]):Either[String,A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getBoundInstance</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="controllerClass">controllerClass: <span class="extype" name="scala.Predef.Class">Class</span>[<span class="extype" name="scaldi.play.ScaldiSupport.getBoundInstance.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scaldi.play.ScaldiSupport.getBoundInstance.A">A</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@getBoundInstance[A](controllerClass:Class[A]):Either[String,A]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">As this involves a little bit of reflection, calls should be cached.</p><div class="fullcomment"><div class="comment cmt"><p>As this involves a little bit of reflection, calls should be cached.
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -410,23 +356,6 @@ override def onStart(app: Application) = {
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scaldi.play.ScaldiSupport#getControllerInstance" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getControllerInstance[A](controllerClass:Class[A]):A"></a>
-      <a id="getControllerInstance[A](Class[A]):A"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getControllerInstance</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="controllerClass">controllerClass: <span class="extype" name="scala.Predef.Class">Class</span>[<span class="extype" name="scaldi.play.ScaldiSupport.getControllerInstance.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="scaldi.play.ScaldiSupport.getControllerInstance.A">A</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@getControllerInstance[A](controllerClass:Class[A]):A" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scaldi.play.ScaldiSupport">ScaldiSupport</a> → GlobalSettings</dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -444,245 +373,23 @@ override def onStart(app: Application) = {
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scaldi.Injectable#identified" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="identified:scaldi.IdentifiedWord[Nothing]"></a>
-      <a id="identified:IdentifiedWord[Nothing]"></a>
+    </li><li name="play.api.GlobalSettings#httpConfigurationCache" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="httpConfigurationCache:play.api.Application=&gt;play.api.http.HttpConfiguration"></a>
+      <a id="httpConfigurationCache:(Application)⇒HttpConfiguration"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">identified</span><span class="result">: <span class="extype" name="scaldi.IdentifiedWord">IdentifiedWord</span>[<span class="extype" name="scala.Nothing">Nothing</span>]</span>
+        <span class="name">httpConfigurationCache</span><span class="result">: (<span class="extype" name="play.api.Application">Application</span>) ⇒ <span class="extype" name="play.api.http.HttpConfiguration">HttpConfiguration</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@identified:scaldi.IdentifiedWord[Nothing]" title="Permalink" target="_top">
+      <a href="../../index.html#scaldi.play.ScaldiSupport@httpConfigurationCache:play.api.Application=&gt;play.api.http.HttpConfiguration" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#inject" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="inject[T](constraints:=&gt;scaldi.InjectConstraints[T])(implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):T"></a>
-      <a id="inject[T](⇒InjectConstraints[T])(Injector,scala.reflect.api.JavaUniverse.TypeTag[T],NotNothing[T]):T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">inject</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="constraints">constraints: ⇒ <span class="extype" name="scaldi.InjectConstraints">InjectConstraints</span>[<span class="extype" name="scaldi.Injectable.inject.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>, <span name="tt">tt: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="scaldi.Injectable.inject.T">T</span>]</span>, <span name="nn">nn: <span class="extype" name="scaldi.util.constraints.NotNothing">NotNothing</span>[<span class="extype" name="scaldi.Injectable.inject.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scaldi.Injectable.inject.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@inject[T](constraints:=&gt;scaldi.InjectConstraints[T])(implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#inject" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="inject[T](implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):T"></a>
-      <a id="inject[T](Injector,scala.reflect.api.JavaUniverse.TypeTag[T],NotNothing[T]):T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">inject</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>, <span name="tt">tt: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="scaldi.Injectable.inject.T">T</span>]</span>, <span name="nn">nn: <span class="extype" name="scaldi.util.constraints.NotNothing">NotNothing</span>[<span class="extype" name="scaldi.Injectable.inject.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scaldi.Injectable.inject.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@inject[T](implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#injectAll" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injectAll(identifiers:scaldi.Identifier*)(implicitinjector:scaldi.Injector):List[Any]"></a>
-      <a id="injectAll(Identifier*)(Injector):List[Any]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injectAll</span><span class="params">(<span name="identifiers">identifiers: <span class="extype" name="scaldi.Identifier">Identifier</span>*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Any">Any</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injectAll(identifiers:scaldi.Identifier*)(implicitinjector:scaldi.Injector):List[Any]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#injectAllOfType" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injectAllOfType[T](identifiers:scaldi.Identifier*)(implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):List[T]"></a>
-      <a id="injectAllOfType[T](Identifier*)(Injector,scala.reflect.api.JavaUniverse.TypeTag[T],NotNothing[T]):List[T]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injectAllOfType</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="identifiers">identifiers: <span class="extype" name="scaldi.Identifier">Identifier</span>*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>, <span name="tt">tt: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="scaldi.Injectable.injectAllOfType.T">T</span>]</span>, <span name="nn">nn: <span class="extype" name="scaldi.util.constraints.NotNothing">NotNothing</span>[<span class="extype" name="scaldi.Injectable.injectAllOfType.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scaldi.Injectable.injectAllOfType.T">T</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injectAllOfType[T](identifiers:scaldi.Identifier*)(implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):List[T]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#injectAllOfType" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injectAllOfType[T](implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):List[T]"></a>
-      <a id="injectAllOfType[T](Injector,scala.reflect.api.JavaUniverse.TypeTag[T],NotNothing[T]):List[T]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injectAllOfType</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>, <span name="tt">tt: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="scaldi.Injectable.injectAllOfType.T">T</span>]</span>, <span name="nn">nn: <span class="extype" name="scaldi.util.constraints.NotNothing">NotNothing</span>[<span class="extype" name="scaldi.Injectable.injectAllOfType.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scaldi.Injectable.injectAllOfType.T">T</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injectAllOfType[T](implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):List[T]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#injectProvider" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injectProvider[T](constraints:=&gt;scaldi.InjectConstraints[T])(implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):()=&gt;T"></a>
-      <a id="injectProvider[T](⇒InjectConstraints[T])(Injector,scala.reflect.api.JavaUniverse.TypeTag[T],NotNothing[T]):()⇒T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injectProvider</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="constraints">constraints: ⇒ <span class="extype" name="scaldi.InjectConstraints">InjectConstraints</span>[<span class="extype" name="scaldi.Injectable.injectProvider.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>, <span name="tt">tt: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="scaldi.Injectable.injectProvider.T">T</span>]</span>, <span name="nn">nn: <span class="extype" name="scaldi.util.constraints.NotNothing">NotNothing</span>[<span class="extype" name="scaldi.Injectable.injectProvider.T">T</span>]</span>)</span><span class="result">: () ⇒ <span class="extype" name="scaldi.Injectable.injectProvider.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injectProvider[T](constraints:=&gt;scaldi.InjectConstraints[T])(implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):()=&gt;T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#injectProvider" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injectProvider[T](implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):()=&gt;T"></a>
-      <a id="injectProvider[T](Injector,scala.reflect.api.JavaUniverse.TypeTag[T],NotNothing[T]):()⇒T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injectProvider</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>, <span name="tt">tt: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="scaldi.Injectable.injectProvider.T">T</span>]</span>, <span name="nn">nn: <span class="extype" name="scaldi.util.constraints.NotNothing">NotNothing</span>[<span class="extype" name="scaldi.Injectable.injectProvider.T">T</span>]</span>)</span><span class="result">: () ⇒ <span class="extype" name="scaldi.Injectable.injectProvider.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injectProvider[T](implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitnn:scaldi.util.constraints.NotNothing[T]):()=&gt;T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#injectWithConstructorDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injectWithConstructorDefault[T,C](paramName:String)(implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitct:reflect.runtime.universe.TypeTag[C]):T"></a>
-      <a id="injectWithConstructorDefault[T,C](String)(Injector,scala.reflect.api.JavaUniverse.TypeTag[T],scala.reflect.api.JavaUniverse.TypeTag[C]):T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injectWithConstructorDefault</span><span class="tparams">[<span name="T">T</span>, <span name="C">C</span>]</span><span class="params">(<span name="paramName">paramName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>, <span name="tt">tt: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="scaldi.Injectable.injectWithConstructorDefault.T">T</span>]</span>, <span name="ct">ct: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="scaldi.Injectable.injectWithConstructorDefault.C">C</span>]</span>)</span><span class="result">: <span class="extype" name="scaldi.Injectable.injectWithConstructorDefault.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injectWithConstructorDefault[T,C](paramName:String)(implicitinjector:scaldi.Injector,implicittt:reflect.runtime.universe.TypeTag[T],implicitct:reflect.runtime.universe.TypeTag[C]):T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Injectable#injectWithDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injectWithDefault[T](injector:scaldi.Injector,default:=&gt;T)(ids:List[scaldi.Identifier]):T"></a>
-      <a id="injectWithDefault[T](Injector,⇒T)(List[Identifier]):T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injectWithDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="injector">injector: <span class="extype" name="scaldi.Injector">Injector</span></span>, <span name="default">default: ⇒ <span class="extype" name="scaldi.Injectable.injectWithDefault.T">T</span></span>)</span><span class="params">(<span name="ids">ids: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scaldi.Identifier">Identifier</span>]</span>)</span><span class="result">: <span class="extype" name="scaldi.Injectable.injectWithDefault.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injectWithDefault[T](injector:scaldi.Injector,default:=&gt;T)(ids:List[scaldi.Identifier]):T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
-    </li><li name="scaldi.Wire#injected" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injected[T](overrides:Tuple2[String,_]*):T"></a>
-      <a id="injected[T](Tuple2[String,_]*):T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">macro </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injected</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="overrides">overrides: <span class="extype" name="scala.Tuple2">Tuple2</span>[<span class="extype" name="scala.Predef.String">String</span>, _]*</span>)</span><span class="result">: <span class="extype" name="scaldi.Wire.injected.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injected[T](overrides:Tuple2[String,_]*):T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Wire</dd></dl></div>
-    </li><li name="scaldi.Wire#injected" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injected[T](overrides:Tuple2[Symbol,_]*):T"></a>
-      <a id="injected[T](Tuple2[Symbol,_]*):T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">macro </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injected</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="overrides">overrides: <span class="extype" name="scala.Tuple2">Tuple2</span>[<span class="extype" name="scala.Symbol">Symbol</span>, _]*</span>)</span><span class="result">: <span class="extype" name="scaldi.Wire.injected.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injected[T](overrides:Tuple2[Symbol,_]*):T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Wire</dd></dl></div>
-    </li><li name="scaldi.Wire#injected" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injected[T]:T"></a>
-      <a id="injected[T]:T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">macro </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injected</span><span class="tparams">[<span name="T">T</span>]</span><span class="result">: <span class="extype" name="scaldi.Wire.injected.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injected[T]:T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Wire</dd></dl></div>
-    </li><li name="scaldi.play.ScaldiSupport#injector" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="injector:scaldi.Injector"></a>
-      <a id="injector:Injector"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">injector</span><span class="result">: <span class="extype" name="scaldi.Injector">Injector</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@injector:scaldi.Injector" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">The current injector when the application is running.</p><div class="fullcomment"><div class="comment cmt"><p>The current injector when the application is running.</p><p>This should only be used directly in legacy code and tests.
-</p></div></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -717,23 +424,6 @@ override def onStart(app: Application) = {
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scaldi.Injectable#noBindingFound" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="noBindingFound(ids:List[scaldi.Identifier]):Nothing"></a>
-      <a id="noBindingFound(List[Identifier]):Nothing"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">noBindingFound</span><span class="params">(<span name="ids">ids: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scaldi.Identifier">Identifier</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Nothing">Nothing</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@noBindingFound(ids:List[scaldi.Identifier]):Nothing" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Injectable</dd></dl></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -820,11 +510,11 @@ override def onStart(app: Application) = {
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd></dl></div>
     </li><li name="play.api.GlobalSettings#onLoadConfig" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="onLoadConfig(config:&lt;?&gt;,path:&lt;?&gt;,classloader:&lt;?&gt;,mode:&lt;?&gt;):play.api.Configuration"></a>
+      <a id="onLoadConfig(config:play.api.Configuration,path:java.io.File,classloader:ClassLoader,mode:play.api.Mode.Mode):play.api.Configuration"></a>
       <a id="onLoadConfig(Configuration,File,ClassLoader,Mode):Configuration"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -835,24 +525,10 @@ override def onStart(app: Application) = {
         <img src="../../lib/permalink.png" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd></dl></div>
-    </li><li name="play.api.GlobalSettings#onRequestCompletion" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="onRequestCompletion(request:&lt;?&gt;):Unit"></a>
-      <a id="onRequestCompletion(RequestHeader):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">onRequestCompletion</span><span class="params">(<span name="request">request: <span class="extype" name="play.api.mvc.RequestHeader">RequestHeader</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#scaldi.play.ScaldiSupport@onRequestCompletion(request:play.api.mvc.RequestHeader):Unit" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+        </dd></dl></div>
     </li><li name="play.api.GlobalSettings#onRequestReceived" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="onRequestReceived(request:&lt;?&gt;):(play.api.mvc.RequestHeader,play.api.mvc.Handler)"></a>
       <a id="onRequestReceived(RequestHeader):(RequestHeader,Handler)"></a>
@@ -887,8 +563,8 @@ override def onStart(app: Application) = {
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd></dl></div>
-    </li><li name="scaldi.play.ScaldiSupport#onStart" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="onStart(app:play.api.Application):Unit"></a>
+    </li><li name="play.api.GlobalSettings#onStart" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="onStart(app:&lt;?&gt;):Unit"></a>
       <a id="onStart(Application):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -903,9 +579,9 @@ override def onStart(app: Application) = {
         <img src="../../lib/permalink.png" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scaldi.play.ScaldiSupport">ScaldiSupport</a> → GlobalSettings</dd></dl></div>
-    </li><li name="scaldi.play.ScaldiSupport#onStop" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="onStop(app:play.api.Application):Unit"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd></dl></div>
+    </li><li name="play.api.GlobalSettings#onStop" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="onStop(app:&lt;?&gt;):Unit"></a>
       <a id="onStop(Application):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -920,7 +596,7 @@ override def onStart(app: Application) = {
         <img src="../../lib/permalink.png" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scaldi.play.ScaldiSupport">ScaldiSupport</a> → GlobalSettings</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -1029,15 +705,34 @@ override def onStart(app: Application) = {
 
         
 
-        
+        <div id="values" class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="play.api.GlobalSettings#onRequestCompletion" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="onRequestCompletion(request:&lt;?&gt;):Unit"></a>
+      <a id="onRequestCompletion(RequestHeader):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 2.4.0) onRequestCompletion is no longer invoked by Play. The same functionality can be achieved by adding a filter that attaches a onDoneEnumerating callback onto the returned Result Enumerator.">onRequestCompletion</span><span class="params">(<span name="request">request: <span class="extype" name="play.api.mvc.RequestHeader">RequestHeader</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaldi.play.ScaldiSupport@onRequestCompletion(request:play.api.mvc.RequestHeader):Unit" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GlobalSettings</dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 2.4.0)</i> onRequestCompletion is no longer invoked by Play. The same functionality can be achieved by adding a filter that attaches a onDoneEnumerating callback onto the returned Result Enumerator.</p></dd></dl></div>
+    </li></ol>
+            </div>
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scaldi.Injectable">
-              <h3>Inherited from <span class="extype" name="scaldi.Injectable">Injectable</span></h3>
-            </div><div class="parent" name="scaldi.Wire">
-              <h3>Inherited from <span class="extype" name="scaldi.Wire">Wire</span></h3>
-            </div><div class="parent" name="play.api.GlobalSettings">
+        <div class="parent" name="play.api.GlobalSettings">
               <h3>Inherited from <span class="extype" name="play.api.GlobalSettings">GlobalSettings</span></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
