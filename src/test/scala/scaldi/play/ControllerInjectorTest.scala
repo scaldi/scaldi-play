@@ -26,19 +26,11 @@ class ControllerInjectorTest extends WordSpec with Matchers with Injectable {
       inject[TestController1].dep should be ("dep-c1")
     }
 
-    "create controllers with no-argument constructor" in {
-      inject[TestController3].dep should be ("test-c3")
-    }
-
     "use explicitly defined bindings" in {
       val c2 = inject[TestController2]
 
       c2.dep should be ("dep-c2")
       c2.name should be ("in user module")
-    }
-
-    "fail to inject if constructor shape is wrong" in {
-      an [IllegalArgumentException] should be thrownBy inject [TestController4]
     }
   }
 
@@ -50,10 +42,4 @@ class TestController1(implicit inj: Injector) extends Controller with Injectable
 class TestController2(implicit inj: Injector) extends Controller with Injectable  {
   val dep = inject[String]('dep) + "-c2"
   val name = "test"
-}
-class TestController3 extends Controller with Injectable {
-  val dep = "test-c3"
-}
-class TestController4(name: String) extends Controller with Injectable {
-  val dep = "test-c4"
 }

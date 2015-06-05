@@ -87,7 +87,7 @@ abstract class ScaldiBuilder[Self] protected (
 
     try {
       val commonBindings = new Module {
-        bind [PlayInjector] to new ScaldiInjector(false)
+        bind [PlayInjector] to new ScaldiInjector(false, environment.classLoader)
       }
 
       val enabledModules = modules.map(_.disable(disabled))

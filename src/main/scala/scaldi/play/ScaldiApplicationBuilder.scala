@@ -78,7 +78,7 @@ final class ScaldiApplicationBuilder(
     copy(configuration = appConfiguration)
         .appendModule(globalInjector)
         .appendModule(loadedModules: _*)
-        .appendModule(new BuiltinScaldiModule(globalSettings, cacheControllers))
+        .appendModule(new BuiltinScaldiModule(globalSettings, cacheControllers, environment.classLoader))
         .createInjector
   }
 
@@ -119,11 +119,11 @@ final class ScaldiApplicationBuilder(
     copy(environment, configuration, modules, disabled)
 }
 
-class BuiltinScaldiModule(global: GlobalSettings, cacheControllers: Boolean) extends Module {
+class BuiltinScaldiModule(global: GlobalSettings, cacheControllers: Boolean, classLoader: ClassLoader) extends Module {
   bind [GlobalSettings] to global
   bind [OptionalSourceMapper] to new OptionalSourceMapper(None)
   bind [WebCommands] to new DefaultWebCommands
-  bind [PlayInjector] to new ScaldiInjector(cacheControllers)
+  bind [PlayInjector] to new ScaldiInjector(cacheControllers, classLoader)
 
   binding identifiedBy 'playMode to inject[Application].mode
 }

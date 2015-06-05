@@ -23,31 +23,30 @@ import java.lang.reflect.InvocationTargetException
  */
 class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[ControllerInjector] with ShutdownHookLifecycleManager {
 
-  private var bindings: List[BindingWithLifecycle] = Nil
+  private var bindings: Set[(List[Identifier], Option[BindingWithLifecycle])] = Set.empty
 
   def getBindingInternal(identifiers: List[Identifier]) = identifiers match {
     case TypeTagIdentifier(tpe) :: Nil if tpe <:< typeTag[Controller].tpe =>
-      bindings.find(_ isDefinedFor identifiers) orElse {
+      bindings.find(b => Identifier.sameAs(b._1, identifiers)) map (_._2) getOrElse {
         this.synchronized {
-          bindings.find(_ isDefinedFor identifiers) orElse {
+          bindings.find(b => Identifier.sameAs(b._1, identifiers)) map (_._2) getOrElse {
             val binding = createBinding(tpe, identifiers)
             
-            bindings = bindings :+ binding
+            bindings = bindings + binding
             
-            Some(binding)
+            binding._2
           }
         }
       }
     case _ => None
   }
 
-  private def createBinding(tpe: Type, identifiers: List[Identifier]) = {
+  private def createBinding(tpe: Type, identifiers: List[Identifier]): (List[Identifier], Option[BindingWithLifecycle]) = {
     val controller =
       tpe.decls
         .filter(_.isMethod)
         .map(_.asMethod)
         .find(m => m.isConstructor && (m.paramLists match {
-          case List(Nil) => true
           case List(Nil, List(paramType)) if paramType.isImplicit && paramType.typeSignature <:< typeTag[Injector].tpe  => true
           case _ => false
         }))
@@ -67,10 +66,8 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
             case e: InvocationTargetException => throw e.getCause
           }
         }
-        .getOrElse (throw new IllegalArgumentException(
-          s"Type $tpe does not have no-argument constructor or constructor with single implicit `Injector` argument."))
     
-    LazyBinding(Some(() => controller), identifiers)
+    identifiers -> controller.map(c => LazyBinding(Some(() => c), identifiers))
   } 
   
   def getBindingsInternal(identifiers: List[Identifier]) = getBindingInternal(identifiers).toList

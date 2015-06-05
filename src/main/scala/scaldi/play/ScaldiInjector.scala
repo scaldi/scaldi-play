@@ -1,5 +1,6 @@
 package scaldi.play
 
+import play.utils.Threads
 import play.api.inject.{BindingKey, Injector => PlayInjector}
 import scaldi.Injectable.noBindingFound
 import scaldi._
@@ -7,7 +8,7 @@ import scaldi._
 import scala.collection.concurrent.TrieMap
 import scala.reflect.ClassTag
 
-class ScaldiInjector(useCache: Boolean)(implicit inj: Injector) extends PlayInjector {
+class ScaldiInjector(useCache: Boolean, classLoader: ClassLoader)(implicit inj: Injector) extends PlayInjector {
   private val cache = TrieMap[BindingKey[_], () => Any]()
 
   def instanceOf[T](implicit ct: ClassTag[T]) =
@@ -33,11 +34,11 @@ class ScaldiInjector(useCache: Boolean)(implicit inj: Injector) extends PlayInje
       actual map (_.asInstanceOf[T]) getOrElse noBindingFound(ids)
     }
 
-  private def getActualBinding(key: BindingKey[_]): (Option[Any], Boolean, List[Identifier]) = {
-    val (_, identifiers) = ScaldiBuilder.identifiersForKey(key)
+  private def getActualBinding(key: BindingKey[_]): (Option[Any], Boolean, List[Identifier]) =
+    Threads.withContextClassLoader(classLoader) {
+      val (_, identifiers) = ScaldiBuilder.identifiersForKey(key)
+      val binding = inj getBinding identifiers
 
-    val binding = inj getBinding identifiers
-
-    binding map (b => (b.get, b.isCacheable, identifiers)) getOrElse noBindingFound(identifiers)
-  }
+      binding map (b => (b.get, b.isCacheable, identifiers)) getOrElse noBindingFound(identifiers)
+    }
 }
