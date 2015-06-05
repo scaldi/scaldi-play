@@ -1,3 +1,9 @@
+## v0.5.7 (05.06.2015)
+
+* Fixed #22 - IllegalArgumentException when using default assets route from Play 2.4 template
+* Context classloader issue during the startup (playframework/playframework#4616)
+* ControllerInjector does not create bindings for no-arg constructors anymore and does not throws exceptions (this task is now implicitly delegated to JSR 330 injector)
+
 ## v0.5.6 (30.05.2015)
 
 * Play 2.4.0 support :star2:
