@@ -1,3 +1,7 @@
+## v0.5.8 (14.06.2015)
+
+* Upded to scaldi-jsr330 v 0.5.7
+
 ## v0.5.7 (05.06.2015)
 
 * Fixed #22 - IllegalArgumentException when using default assets route from Play 2.4 template
