@@ -1,6 +1,11 @@
+## v0.5.9 (26.09.2015)
+
+* Fixes bug in module loading order (bug caused inconsistent behaviour in some edge-cases)
+* Updated scala and play deps
+
 ## v0.5.8 (14.06.2015)
 
-* Updated to scaldi-jsr330 v 0.5.7
+* Updated to scaldi-jsr330 v0.5.7
 
 ## v0.5.7 (05.06.2015)
 
