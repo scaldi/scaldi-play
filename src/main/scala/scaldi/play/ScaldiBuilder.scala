@@ -126,17 +126,25 @@ abstract class ScaldiBuilder[Self] protected (
 }
 
 object ScaldiBuilder extends Injectable {
-  def loadModules(environment: Environment, configuration: Configuration): Seq[CanBeScaldiInjector] =
-    Modules.locate(environment, configuration).map {
-      case playModule: PlayModule => CanBeScaldiInjector.fromPlayModule(playModule)
-      case inj: Injector => CanBeScaldiInjector.fromScaldiInjector(inj)
-      case unknown =>
-        throw new PlayException("Unknown module type", s"Module [$unknown] is not a Play module or a Scaldi module")
-    }
+  def loadModules(environment: Environment, configuration: Configuration): Seq[CanBeScaldiInjector] = {
+    def doLoadModules(modules: Seq[Any]) =
+      modules.map {
+        case playModule: PlayModule => CanBeScaldiInjector.fromPlayModule(playModule)
+        case inj: Injector => CanBeScaldiInjector.fromScaldiInjector(inj)
+        case unknown =>
+          throw new PlayException("Unknown module type", s"Module [$unknown] is not a Play module or a Scaldi module")
+      }
+
+    val (lowPrio, highPrio) = Modules.locate(environment, configuration).partition(m => m.isInstanceOf[BuiltinModule] || m.isInstanceOf[ControllerInjector])
+
+    doLoadModules(highPrio) ++ doLoadModules(lowPrio)
+  }
 
   def createScaldiInjector(injectors: Seq[Injector], config: Configuration) = {
     val standard = Seq(TypesafeConfigInjector(config.underlying), new OnDemandAnnotationInjector)
-    implicit val injector = (injectors ++ standard) reduce (_ :: _)
+    val allInjectors = injectors ++ standard
+
+    implicit val injector = new MutableInjectorAggregation(allInjectors.toList)
 
     injector match {
       case init: Initializeable[_] =>
