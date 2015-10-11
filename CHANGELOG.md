@@ -1,3 +1,7 @@
+## v0.5.10 (11.10.2015)
+
+* Fixes circular dependency where `Mode` depends on a play `Application`. `Mode` binding is no longer depends on it.
+
 ## v0.5.9 (26.09.2015)
 
 * Fixes bug in module loading order (bug caused inconsistent behaviour in some edge-cases)

@@ -1,6 +1,5 @@
 package scaldi.play
 
-import play.api.{Mode, Environment, Application}
 import play.api.inject.RoutesProvider
 import play.api.mvc.{RequestHeader, Handler}
 import play.api.routing.Router

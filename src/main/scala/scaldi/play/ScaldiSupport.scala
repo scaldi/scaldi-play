@@ -1,6 +1,6 @@
 package scaldi.play
 
-import play.api.{Application, GlobalSettings}
+import play.api.GlobalSettings
 import scaldi.Injector
 
 @deprecated("GlobalSettings is deprecated so is ScaldiSupport trait", "2015-02-02")

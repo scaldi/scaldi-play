@@ -1,6 +1,6 @@
 package scaldi.play
 
-import play.api.{Application, Play}
+import play.api.Application
 import play.api.mvc.Controller
 import scaldi._
 
