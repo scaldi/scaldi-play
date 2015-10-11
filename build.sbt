@@ -1,6 +1,6 @@
 name := "scaldi-play"
 organization := "org.scaldi"
-version := "0.5.10"
+version := "0.5.11-SNAPSHOT"
 
 description := "Scaldi-Play - Scaldi integration for Play framework"
 homepage := Some(url("http://scaldi.org"))
