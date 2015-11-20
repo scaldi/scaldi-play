@@ -1,3 +1,7 @@
+## v0.5.11 (20.11.2015)
+
+* Fixes singleton and eager `ConstructionTarget`s (now play-binding scope is considered during the binding phase)
+
 ## v0.5.10 (11.10.2015)
 
 * Fixes circular dependency where `Mode` depends on a play `Application`. `Mode` binding is no longer depends on it.
