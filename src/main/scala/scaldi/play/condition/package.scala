@@ -1,8 +1,10 @@
 package scaldi.play
 
+import play.api.Mode
+
 import languageFeature.postfixOps
 
-import scaldi.{Condition, Injector}
+import scaldi.{Identifier, Condition, Injector}
 import scaldi.Injectable._
 import play.api.Mode._
 
@@ -18,21 +20,22 @@ package object condition {
   /**
    * Play application is started in Dev mode
    */
-  def inDevMode(implicit inj: Injector) =
-    Condition(mode == Dev)
+  def inDevMode(implicit inj: Injector) = ModeCondition(Dev)
 
   /**
    * Play application is started in Test mode
    */
-  def inTestMode(implicit inj: Injector) =
-    Condition(mode == Test)
+  def inTestMode(implicit inj: Injector) = ModeCondition(Test)
 
   /**
    * Play application is started in Prod mode
    */
-  def inProdMode(implicit inj: Injector) =
-    Condition(mode == Prod)
+  def inProdMode(implicit inj: Injector) = ModeCondition(Prod)
 
-  private def mode(implicit inj: Injector) =
-    inject [Mode] ('playMode)
+  case class ModeCondition(mode: Mode.Mode)(implicit inj: Injector) extends Condition {
+    lazy val m = inject [Mode] ('playMode)
+
+    override def satisfies(identifiers: List[Identifier]) = m == mode
+    override val dynamic = false
+  }
 }

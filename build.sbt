@@ -11,15 +11,15 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play" % "2.4.3" % "provided",
-  "org.scaldi" %% "scaldi-jsr330" % "0.5.7",
+  "com.typesafe.play" %% "play" % "2.4.4" % "provided",
+  "org.scaldi" %% "scaldi-jsr330" % "0.5.8",
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "com.typesafe.play" %% "play-test" % "2.4.3" % "test",
+  "com.typesafe.play" %% "play-test" % "2.4.4" % "test",
   "com.typesafe.play" %% "play-slick" % "1.0.0" % "test",
   "com.typesafe.play" %% "play-slick-evolutions" % "1.0.0" % "test",
   "com.h2database" % "h2" % "1.4.187" % "test",
-  "com.typesafe.play" %% "play-cache" % "2.4.3" % "test" // cache plugin add extra bindings which have some specialties and will be tested automatically
+  "com.typesafe.play" %% "play-cache" % "2.4.4" % "test" // cache plugin add extra bindings which have some specialties and will be tested automatically
 )
 
 git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"
