@@ -1,3 +1,8 @@
+## v0.5.12 (2015-12-11)
+
+* Updated scaldi-jsr330 v0.5.8
+* `toNonLazy` is initialized even if it has a condition (#26)
+
 ## v0.5.11 (20.11.2015)
 
 * Fixes singleton and eager `ConstructionTarget`s (now play-binding scope is considered during the binding phase)
