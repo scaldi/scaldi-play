@@ -1,3 +1,7 @@
+## v0.5.13 (2016-01-28)
+
+* Updated to play v2.4.6
+
 ## v0.5.12 (2015-12-11)
 
 * Updated scaldi-jsr330 v0.5.8
