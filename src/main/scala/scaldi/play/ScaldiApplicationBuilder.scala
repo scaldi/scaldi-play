@@ -57,12 +57,11 @@ final class ScaldiApplicationBuilder(
   protected def realInjector: (Injector, PlayInjector) = {
     val initialConfiguration = loadConfiguration(environment)
     val globalSettings = global getOrElse GlobalSettings(initialConfiguration, environment)
-    val loadedConfiguration = globalSettings.onLoadConfig(initialConfiguration, environment.rootPath, environment.classLoader, environment.mode)
-    val appConfiguration = loadedConfiguration ++ configuration
+    val appConfiguration = initialConfiguration ++ configuration
 
-    // TODO: Logger should be application specific, and available via dependency injection.
-    //       Creating multiple applications will stomp on the global logger configuration.
-    Logger.configure(environment)
+    LoggerConfigurator(environment.classLoader).foreach {
+      _.configure(environment)
+    }
 
     if (appConfiguration.underlying.hasPath("logger"))
       Logger.warn("Logger configuration in conf files is deprecated and has no effect. Use a logback configuration file instead.")

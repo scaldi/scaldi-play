@@ -1,3 +1,7 @@
+## v0.5.13-play-2.5.0-M2 (2016-02-12)
+
+* Updated to play v2.5.0-M2
+
 ## v0.5.13 (2016-01-28)
 
 * Updated to play v2.4.6
