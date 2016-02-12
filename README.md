@@ -4,6 +4,10 @@
 
 You can find more information at the [hope page of the project](http://scaldi.org) and ["Play Integration"](http://scaldi.org/learn/#play-integration) section of the documentation.
 
+SBT Configuration (Play 2.5.x):
+
+    libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.13-play-2.5.0-M2"
+
 SBT Configuration (Play 2.4.x):
 
     libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.13"
