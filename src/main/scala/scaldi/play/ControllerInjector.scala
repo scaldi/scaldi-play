@@ -1,6 +1,6 @@
 package scaldi.play
 
-import play.api.Application
+import play.api.Environment
 import play.api.mvc.Controller
 import scaldi._
 
@@ -53,8 +53,8 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
         .map { constructor =>
           import Injectable._
 
-          val app = inject [Application]
-          val mirror = runtimeMirror(app.classloader)
+          val env = inject [Environment]
+          val mirror = runtimeMirror(env.classLoader)
           val constructorMirror = mirror.reflectClass(tpe.typeSymbol.asClass).reflectConstructor(constructor)
 
           try {
