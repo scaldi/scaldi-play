@@ -3,9 +3,7 @@ package scaldi.play
 import org.scalatest.{Matchers, WordSpec}
 import scaldi.{Injectable, Module, Injector}
 import play.api.mvc.Controller
-import java.lang.IllegalArgumentException
-import play.api.Application
-import play.api.test.FakeApplication
+import play.api.Environment
 
 class ControllerInjectorTest extends WordSpec with Matchers with Injectable {
 
@@ -16,7 +14,7 @@ class ControllerInjectorTest extends WordSpec with Matchers with Injectable {
 
     bind [String] identifiedBy 'dep to "dep"
 
-    bind [Application] to new FakeApplication()
+    bind [Environment] to Environment.simple()
   }
 
   "ControllerInjector" should {
