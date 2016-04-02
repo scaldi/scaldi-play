@@ -6,7 +6,7 @@ You can find more information at the [hope page of the project](http://scaldi.or
 
 SBT Configuration (Play 2.5.x):
 
-    libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.14"
+    libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.15"
 
 SBT Configuration (Play 2.3.x):
 

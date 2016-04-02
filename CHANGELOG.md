@@ -1,3 +1,7 @@
+## v0.5.15 (2016-04-02)
+
+* Updated to play v2.5.1
+
 ## v0.5.14 (2016-03-10)
 
 * Updated to play v2.5.0
