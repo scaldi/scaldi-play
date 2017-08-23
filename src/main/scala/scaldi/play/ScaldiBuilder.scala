@@ -38,7 +38,7 @@ abstract class ScaldiBuilder[Self] protected (
   /**
    * Set the environment mode.
    */
-  final def in(mode: Mode.Mode): Self =
+  final def in(mode: Mode): Self =
     copyBuilder(environment = environment.copy(mode = mode))
 
   /**
@@ -152,14 +152,10 @@ object ScaldiBuilder extends Injectable {
       case _ => // there is nothing to init
     }
 
-    ScaldiSupport.currentInj = Some(injector)
-
     injector match {
       case lm: LifecycleManager =>
         inject [ApplicationLifecycle] addStopHook { () =>
           lm.destroy()
-
-          ScaldiSupport.currentInj = None
 
           Future.successful(())
         }

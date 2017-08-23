@@ -1,7 +1,7 @@
 package scaldi.play
 
 import play.api.Environment
-import play.api.mvc.Controller
+import play.api.mvc._
 import scaldi._
 
 import scala.reflect.runtime.universe.{Type, runtimeMirror, typeTag}
@@ -26,7 +26,7 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
   private var bindings: Set[(List[Identifier], Option[BindingWithLifecycle])] = Set.empty
 
   def getBindingInternal(identifiers: List[Identifier]) = identifiers match {
-    case TypeTagIdentifier(tpe) :: Nil if tpe <:< typeTag[Controller].tpe =>
+    case TypeTagIdentifier(tpe) :: Nil if tpe <:< typeTag[InjectedController].tpe || tpe <:< typeTag[AbstractController].tpe =>
       bindings.find(b => Identifier.sameAs(b._1, identifiers)) map (_._2) getOrElse {
         this.synchronized {
           bindings.find(b => Identifier.sameAs(b._1, identifiers)) map (_._2) getOrElse {
@@ -47,7 +47,8 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
         .filter(_.isMethod)
         .map(_.asMethod)
         .find(m => m.isConstructor && (m.paramLists match {
-          case List(Nil, List(paramType)) if paramType.isImplicit && paramType.typeSignature <:< typeTag[Injector].tpe  => true
+          case List(Nil, List(injectorType, paramType)) if tpe <:< typeTag[AbstractController].tpe && injectorType.isImplicit && injectorType.typeSignature <:< typeTag[Injector].tpe && injectorType.isImplicit && paramType.typeSignature <:< typeTag[ControllerComponents].tpe => true
+          case List(Nil, List(injectorType)) if tpe <:< typeTag[InjectedController].tpe && injectorType.isImplicit && injectorType.typeSignature <:< typeTag[Injector].tpe  => true
           case _ => false
         }))
         .map { constructor =>
@@ -59,7 +60,12 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
 
           try {
             constructor.paramLists match {
-              case List(Nil, List(paramType)) => constructorMirror(injector)
+              case List(Nil, List(injectorType, paramType)) => constructorMirror(injector, inject[ControllerComponents])
+              case List(Nil, List(injectorType)) => {
+                val instance = constructorMirror(injector)
+                instance.asInstanceOf[InjectedController].setControllerComponents(inject[ControllerComponents])
+                instance
+              }
               case List(Nil) => constructorMirror()
             }
           } catch {
