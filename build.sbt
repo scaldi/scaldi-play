@@ -27,7 +27,9 @@ libraryDependencies ++= Seq(
 )
 
 git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"
-
+resolvers ++= Seq(
+  "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/",
+  "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases")
 
 // Site and docs
 
@@ -40,13 +42,11 @@ ghpages.settings
 publishMavenStyle := true
 publishArtifact in Test := false
 pomIncludeRepository := (_ => false)
-credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 publishTo := Some(
-  if (!version.value.trim.endsWith("SNAPSHOT"))
-    "Muneris Releases Repository" at "https://team-repository.muneris.io/nexus/repository/thirdparty"
+  if (version.value.trim.endsWith("SNAPSHOT"))
+    "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   else
-    "Muneris Snapshots Repository" at "https://team-repository.muneris.io/nexus/repository/thirdparty-snapshots"
-)
+    "releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
 
 // nice prompt!
 
