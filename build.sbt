@@ -1,26 +1,27 @@
 name := "scaldi-play"
 organization := "org.scaldi"
-version := "0.5.16-SNAPSHOT"
+version := "0.5.16"
 
 description := "Scaldi-Play - Scaldi integration for Play framework"
 homepage := Some(url("http://scaldi.org"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.3"
 scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 testOptions in Test += Tests.Argument("-oDF")
 
-val playVersion = "2.5.1"
+val playVersion = "2.6.3"
+val slickVersion = "3.0.1"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % playVersion % "provided",
-  "org.scaldi" %% "scaldi-jsr330" % "0.5.8",
-
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+  "com.typesafe.play" %% "play-guice" % playVersion % "provided",
+  "org.scaldi" %% "scaldi-jsr330" % "0.5.9",
+  "org.scalatest" %% "scalatest" % "3.0.3" % "test",
   "com.typesafe.play" %% "play-test" % playVersion % "test",
-  "com.typesafe.play" %% "play-slick" % "1.0.0" % "test",
-  "com.typesafe.play" %% "play-slick-evolutions" % "1.0.0" % "test",
+  "com.typesafe.play" %% "play-slick" % slickVersion % "test",
+  "com.typesafe.play" %% "play-slick-evolutions" % slickVersion % "test",
   "com.h2database" % "h2" % "1.4.187" % "test",
   "com.typesafe.play" %% "play-cache" % playVersion % "test" // cache plugin add extra bindings which have some specialties and will be tested automatically
 )

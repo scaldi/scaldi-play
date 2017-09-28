@@ -32,7 +32,7 @@ package object condition {
    */
   def inProdMode(implicit inj: Injector) = ModeCondition(Prod)
 
-  case class ModeCondition(mode: Mode.Mode)(implicit inj: Injector) extends Condition {
+  case class ModeCondition(mode: Mode)(implicit inj: Injector) extends Condition {
     lazy val m = inject [Mode] ('playMode)
 
     override def satisfies(identifiers: List[Identifier]) = m == mode

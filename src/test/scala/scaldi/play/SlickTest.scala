@@ -2,13 +2,13 @@ package scaldi.play
 
 import java.io.StringReader
 
-import com.typesafe.config.{ConfigFactory, Config}
+import com.typesafe.config.{ConfigFactory}
 import org.scalatest.{Matchers, WordSpec}
 import play.api.Configuration
 import play.api.db.slick.DatabaseConfigProvider
 import scaldi.Injectable
 import scaldi.play.ScaldiApplicationBuilder._
-import slick.driver.JdbcProfile
+import slick.jdbc.JdbcProfile
 
 class SlickTest extends WordSpec with Matchers with Injectable {
   "Slick Plugin" should {

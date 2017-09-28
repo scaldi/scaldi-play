@@ -15,11 +15,16 @@ final class ScaldiApplicationBuilder(
   modules: Seq[CanBeScaldiInjector] = Seq.empty,
   disabled: Seq[Class[_]] = Seq.empty,
   loadConfiguration: Environment => Configuration = Configuration.load,
-  global: Option[GlobalSettings] = None,
   loadModules: (Environment, Configuration) => Seq[CanBeScaldiInjector] = ScaldiBuilder.loadModules
 ) extends ScaldiBuilder[ScaldiApplicationBuilder](environment, configuration, modules, disabled) {
   def this() = this(environment = Environment.simple())
 
+  val GlobalAppConfigKey = "play.allowGlobalApplication"
+  /**
+    * Sets the configuration key to enable/disable global application state
+    */
+  def globalApp(enabled: Boolean): ScaldiApplicationBuilder =
+    configure(GlobalAppConfigKey -> enabled)
   /**
    * Set the initial configuration loader.
    * Overrides the default or any previously configured values.
@@ -33,13 +38,6 @@ final class ScaldiApplicationBuilder(
    */
   def loadConfig(conf: Configuration): ScaldiApplicationBuilder =
     loadConfig(env => conf)
-
-  /**
-   * Set the global settings object.
-   * Overrides the default or any previously configured values.
-   */
-  def global(globalSettings: GlobalSettings): ScaldiApplicationBuilder =
-    copy(global = Option(globalSettings))
 
   /**
    * Set the module loader.
@@ -56,7 +54,6 @@ final class ScaldiApplicationBuilder(
 
   protected def realInjector: (Injector, PlayInjector) = {
     val initialConfiguration = loadConfiguration(environment)
-    val globalSettings = global getOrElse GlobalSettings(initialConfiguration, environment)
     val appConfiguration = initialConfiguration ++ configuration
 
     LoggerConfigurator(environment.classLoader).foreach {
@@ -67,17 +64,12 @@ final class ScaldiApplicationBuilder(
       Logger.warn("Logger configuration in conf files is deprecated and has no effect. Use a logback configuration file instead.")
 
     val loadedModules = loadModules(environment, appConfiguration)
-    val cacheControllers = configuration.getBoolean("scaldi.controller.cache") getOrElse true
+    val cacheControllers = configuration.getOptional[Boolean]("scaldi.controller.cache") getOrElse true
 
-    val globalInjector = globalSettings match {
-      case s: ScaldiSupport => s.applicationModule
-      case _ => NilInjector
-    }
 
     copy(configuration = appConfiguration)
-        .appendModule(globalInjector)
         .appendModule(loadedModules: _*)
-        .appendModule(new BuiltinScaldiModule(globalSettings, cacheControllers, environment.classLoader, environment.mode))
+        .appendModule(new BuiltinScaldiModule(cacheControllers, environment.classLoader, environment.mode))
         .createInjector
   }
 
@@ -106,9 +98,8 @@ final class ScaldiApplicationBuilder(
       modules: Seq[CanBeScaldiInjector] = modules,
       disabled: Seq[Class[_]] = disabled,
       loadConfiguration: Environment => Configuration = loadConfiguration,
-      global: Option[GlobalSettings] = global,
       loadModules: (Environment, Configuration) => Seq[CanBeScaldiInjector] = loadModules): ScaldiApplicationBuilder =
-    new ScaldiApplicationBuilder(environment, configuration, modules, disabled, loadConfiguration, global, loadModules)
+    new ScaldiApplicationBuilder(environment, configuration, modules, disabled, loadConfiguration, loadModules)
 
   override protected def newBuilder(
       environment: Environment,
@@ -118,8 +109,7 @@ final class ScaldiApplicationBuilder(
     copy(environment, configuration, modules, disabled)
 }
 
-class BuiltinScaldiModule(global: GlobalSettings, cacheControllers: Boolean, classLoader: ClassLoader, mode: Mode.Mode) extends Module {
-  bind [GlobalSettings] to global
+class BuiltinScaldiModule(cacheControllers: Boolean, classLoader: ClassLoader, mode: Mode) extends Module {
   bind [OptionalSourceMapper] to new OptionalSourceMapper(None)
   bind [WebCommands] to new DefaultWebCommands
   bind [PlayInjector] to new ScaldiInjector(cacheControllers, classLoader)
@@ -136,9 +126,8 @@ object ScaldiApplicationBuilder {
                        modules: Seq[CanBeScaldiInjector] = Seq.empty,
                        disabled: Seq[Class[_]] = Seq.empty,
                        loadConfiguration: Environment => Configuration = Configuration.load,
-                       global: Option[GlobalSettings] = None,
                        loadModules: (Environment, Configuration) => Seq[CanBeScaldiInjector] = ScaldiBuilder.loadModules)(fn: => T) = {
-    val app = new ScaldiApplicationBuilder(environment, configuration, modules, disabled, loadConfiguration, global, loadModules).build()
+    val app = new ScaldiApplicationBuilder(environment, configuration, modules, disabled, loadConfiguration, loadModules).build()
 
     try {
       Play.start(app)
@@ -155,9 +144,8 @@ object ScaldiApplicationBuilder {
                        modules: Seq[CanBeScaldiInjector] = Seq.empty,
                        disabled: Seq[Class[_]] = Seq.empty,
                        loadConfiguration: Environment => Configuration = Configuration.load,
-                       global: Option[GlobalSettings] = None,
                        loadModules: (Environment, Configuration) => Seq[CanBeScaldiInjector] = ScaldiBuilder.loadModules)(fn: Injector => T) = {
-    implicit val inj = new ScaldiApplicationBuilder(environment, configuration, modules, disabled, loadConfiguration, global, loadModules).buildInj()
+    implicit val inj = new ScaldiApplicationBuilder(environment, configuration, modules, disabled, loadConfiguration, loadModules).buildInj()
     val app = Injectable.inject[Application]
 
     try {
