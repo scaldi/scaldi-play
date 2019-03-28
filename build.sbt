@@ -6,15 +6,15 @@ description := "Scaldi-Play - Scaldi integration for Play framework"
 homepage := Some(url("http://scaldi.org"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-scalaVersion := "2.12.3"
-crossScalaVersions := Seq("2.11.11", "2.12.3")
+scalaVersion := "2.12.8"
+crossScalaVersions := Seq("2.11.12", "2.12.8")
 
 scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 testOptions in Test += Tests.Argument("-oDF")
 
-val playVersion = "2.6.5"
-val slickVersion = "3.0.2"
+val playVersion = "2.7.0"
+val slickVersion = "4.0.0"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % playVersion % "provided",

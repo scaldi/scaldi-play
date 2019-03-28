@@ -113,6 +113,7 @@ class BuiltinScaldiModule(cacheControllers: Boolean, classLoader: ClassLoader, m
   bind [OptionalSourceMapper] to new OptionalSourceMapper(None)
   bind [WebCommands] to new DefaultWebCommands
   bind [PlayInjector] to new ScaldiInjector(cacheControllers, classLoader)
+  bind [OptionalDevContext] to new OptionalDevContext(None)
 
   binding identifiedBy 'playMode to mode
 }

@@ -14,7 +14,7 @@ class ScaldiApplicationLoader(val builder: ScaldiApplicationBuilder) extends App
       .loadConfig(context.initialConfiguration)
       .prependModule(new Module {
         bind [OptionalSourceMapper] to new OptionalSourceMapper(context.sourceMapper)
-        bind [WebCommands] to context.webCommands
+        bind [OptionalDevContext] to new OptionalDevContext(context.devContext)
       })
-      .build
+      .build()
 }
