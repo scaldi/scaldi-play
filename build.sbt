@@ -1,54 +1,44 @@
-name := "scaldi-play"
-organization := "org.scaldi"
-version := "0.5.18-SNAPSHOT"
+name := "dipendi-play"
+organization := "com.protenus"
 
-description := "Scaldi-Play - Scaldi integration for Play framework"
-homepage := Some(url("http://scaldi.org"))
+description := "Dipendi-Play - Dipendi integration for Play framework"
+homepage := Some(url("http://github.com/protenus/dipendi-play"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-scalaVersion := "2.12.3"
-crossScalaVersions := Seq("2.11.11", "2.12.3")
+crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1")
+scalaVersion := "2.13.1"
 
 scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 testOptions in Test += Tests.Argument("-oDF")
 
-val playVersion = "2.6.5"
-val slickVersion = "3.0.2"
+val playVersion = "2.7.4"
+val slickVersion = "4.0.2"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play" % playVersion % "provided",
-  "com.typesafe.play" %% "play-guice" % playVersion % "provided",
-  "org.scaldi" %% "scaldi-jsr330" % "0.5.9",
-  "org.scalatest" %% "scalatest" % "3.0.4" % "test",
-  "com.typesafe.play" %% "play-test" % playVersion % "test",
-  "com.typesafe.play" %% "play-slick" % slickVersion % "test",
-  "com.typesafe.play" %% "play-slick-evolutions" % slickVersion % "test",
-  "com.h2database" % "h2" % "1.4.196" % "test",
-  "com.typesafe.play" %% "play-cache" % playVersion % "test" // cache plugin add extra bindings which have some specialties and will be tested automatically
+  "com.typesafe.play" %% "play" % playVersion % Provided,
+  "com.typesafe.play" %% "play-guice" % playVersion % Provided,
+  "com.protenus" %% "dipendi" % "0.6.0",
+  "com.protenus" %% "dipendi-jsr330" % "0.6.0",
+  "org.scalatest" %% "scalatest" % "3.0.8" % Test,
+  "com.typesafe.play" %% "play-test" % playVersion % Test,
+  "com.typesafe.play" %% "play-slick" % slickVersion % Test,
+  "com.typesafe.play" %% "play-slick-evolutions" % slickVersion % Test,
+  "com.h2database" % "h2" % "1.4.196" % Test,
+  "com.typesafe.play" %% "play-cache" % playVersion % Test // cache plugin add extra bindings which have some specialties and will be tested automatically
 )
 
-git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"
-resolvers ++= Seq(
-  "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/",
-  "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases")
+git.remoteRepo := "git@github.com:protenus/dipendi-play.git"
 
 // Site and docs
 
-site.settings
-site.includeScaladoc()
-ghpages.settings
+enablePlugins(SiteScaladocPlugin)
+enablePlugins(GhpagesPlugin)
 
 // Publishing
 
-publishMavenStyle := true
 publishArtifact in Test := false
 pomIncludeRepository := (_ => false)
-publishTo := Some(
-  if (version.value.trim.endsWith("SNAPSHOT"))
-    "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-  else
-    "releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
 
 // nice prompt!
 
@@ -59,9 +49,9 @@ shellPrompt in ThisBuild := { state =>
 // Additional meta-info
 
 startYear := Some(2011)
-organizationHomepage := Some(url("https://github.com/scaldi"))
-developers := Developer("OlegIlyenko", "Oleg Ilyenko", "", url("https://github.com/OlegIlyenko")) :: Nil
+organizationHomepage := Some(url("https://github.com/protenus"))
+developers := Developer("AprilAtProtenus", "April Hyacinth", "", url("https://github.com/AprilAtProtenus")) :: Nil
 scmInfo := Some(ScmInfo(
-  browseUrl = url("https://github.com/scaldi/scaldi-play"),
-  connection = "scm:git:git@github.com:scaldi/scaldi-play.git"
+  browseUrl = url("https://github.com/protenus/dipendi-play"),
+  connection = "scm:git:git@github.com:protenus/dipendi-play.git"
 ))
