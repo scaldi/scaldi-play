@@ -1,14 +1,15 @@
 package scaldi.play
 
-import org.scalatest.{Matchers, WordSpec}
 import scaldi.{Injectable, Injector, Module}
 import play.api.mvc._
 import play.api.Environment
 import play.api.Mode.Test
 import scaldi.Injectable.inject
 import scaldi.play.ScaldiApplicationBuilder.withScaldiInj
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class ControllerInjectorTest extends WordSpec with Matchers with Injectable {
+class ControllerInjectorTest extends AnyWordSpec with Matchers with Injectable {
 
   class UserModule extends Module {
 

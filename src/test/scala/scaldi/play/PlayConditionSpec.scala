@@ -1,14 +1,15 @@
 package scaldi.play
 
-import org.scalatest.{Matchers, WordSpec}
 import ScaldiApplicationBuilder._
 import play.api.Environment
 import scaldi.Module
 import scaldi.play.condition._
 import scaldi.Injectable._
 import play.api.Mode._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class PlayConditionSpec extends WordSpec with Matchers {
+class PlayConditionSpec extends AnyWordSpec with Matchers {
 
   "Play Condition" should {
     "inject bindings based on the correct mode" in {
