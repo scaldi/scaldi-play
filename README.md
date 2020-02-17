@@ -1,23 +1,34 @@
-## scaldi-play
+## dipendi-play
 
-[Scaldi](http://scaldi.org) integration for Play framework
+[![Build Status](https://travis-ci.org/protenus/dipendi-play.svg?branch=master)](https://travis-ci.org/protenus/dipendi-play)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.protenus/dipendi-play_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.protenus/dipendi-play_2.13)
 
-You can find more information at the [hope page of the project](http://scaldi.org) and ["Play Integration"](http://scaldi.org/learn/#play-integration) section of the documentation.
+[Dipendi](https://github.com/protenus/dipendi) integration for Play framework
 
-SBT Configuration (Play 2.6.x):
+Dipendi-play is a fork of [scaldi-play](https://github.com/scaldi/scaldi-play),
+created to continue the library's development in lieu of a new maintainer who can access
+the Scaldi repository (see [scaldi/scaldi#81](https://github.com/scaldi/scaldi/issues/81)).
+See the [main Dipendi repo](https://github.com/protenus/dipendi) for more information.
 
-    libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.17"
+The Scaldi documentation is still being migrated. Until that is complete,
+you may need to rely on the original project's documentation.
 
-SBT Configuration (Play 2.5.x):
+You can find an archive of the original project's homepage
+[here](https://web.archive.org/web/20190616212058/http://scaldi.org/), or jump directly
+to the Play Integration documentation
+[here](https://web.archive.org/web/20190618005634/http://scaldi.org/learn/#play-integration). Due to it
+being an archived website, some of the links on it may not work properly.
 
-    libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.15"
+## Adding Dipendi-play in Your Build
 
-SBT Configuration (Play 2.3.x):
+SBT Configuration (Play 2.7.x):
 
-    libraryDependencies += "org.scaldi" %% "scaldi-play-23" % "0.5.6"
+```sbtshell
+libraryDependencies += "com.protenus" %% "dipendi-play" % "0.6.0"
+```
 
-[![Build Status](https://travis-ci.org/scaldi/scaldi-play.png)](https://travis-ci.org/scaldi/scaldi-play) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.11)
+For older versions of Play, please use [scaldi-play](https://github.com/scaldi/scaldi-play).
 
 ## License
 
-**scaldi-play** is licensed under [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+**dipendi-play** is licensed under [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
