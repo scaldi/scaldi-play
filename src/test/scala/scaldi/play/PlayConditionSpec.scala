@@ -13,21 +13,21 @@ class PlayConditionSpec extends WordSpec with Matchers {
   "Play Condition" should {
     "inject bindings based on the correct mode" in {
       class TestModule extends Module {
-        bind [String] identifiedBy 'test when inTestMode to "test"
-        bind [String] identifiedBy 'test when inDevMode to "dev"
-        bind [String] identifiedBy 'test when inProdMode to "prod"
+        bind [String] identifiedBy Symbol("test") when inTestMode to "test"
+        bind [String] identifiedBy Symbol("test") when inDevMode to "dev"
+        bind [String] identifiedBy Symbol("test") when inProdMode to "prod"
       }
 
-      withScaldiInj(modules = Seq(new TestModule), environment = Environment.simple(mode = Test)) { implicit inj ⇒
-        inject[String]('test) should be ("test")
+      withScaldiInj(modules = Seq(new TestModule), environment = Environment.simple(mode = Test)) { implicit inj =>
+        inject[String](Symbol("test")) should be ("test")
       }
 
-      withScaldiInj(modules = Seq(new TestModule), environment = Environment.simple(mode = Dev)) { implicit inj ⇒
-        inject[String]('test) should be ("dev")
+      withScaldiInj(modules = Seq(new TestModule), environment = Environment.simple(mode = Dev)) { implicit inj =>
+        inject[String](Symbol("test")) should be ("dev")
       }
 
-      withScaldiInj(modules = Seq(new TestModule), environment = Environment.simple(mode = Prod)) { implicit inj ⇒
-        inject[String]('test) should be ("prod")
+      withScaldiInj(modules = Seq(new TestModule), environment = Environment.simple(mode = Prod)) { implicit inj =>
+        inject[String](Symbol("test")) should be ("prod")
       }
     }
 
@@ -37,9 +37,9 @@ class PlayConditionSpec extends WordSpec with Matchers {
       var prodInit = false
 
       class TestModule extends Module {
-        bind [String] identifiedBy 'test when inTestMode toNonLazy "test" initWith (_ ⇒ testInit = true)
-        bind [String] identifiedBy 'test when inDevMode toNonLazy "dev" initWith (_ ⇒ devInit = true)
-        bind [String] identifiedBy 'test when inProdMode toNonLazy "prod" initWith (_ ⇒ prodInit = true)
+        bind [String] identifiedBy Symbol("test") when inTestMode toNonLazy "test" initWith (_ => testInit = true)
+        bind [String] identifiedBy Symbol("test") when inDevMode toNonLazy "dev" initWith (_ => devInit = true)
+        bind [String] identifiedBy Symbol("test") when inProdMode toNonLazy "prod" initWith (_ => prodInit = true)
       }
 
       withScaldiApp(modules = Seq(new TestModule), environment = Environment.simple(mode = Dev)) {

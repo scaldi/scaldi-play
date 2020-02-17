@@ -93,7 +93,7 @@ abstract class ScaldiBuilder[Self] protected (
       val enabledModules = modules.map(_.disable(disabled))
       val scaldiInjectors = enabledModules flatMap (_.toScaldi(environment, configuration))
 
-      implicit val injector = createScaldiInjector(scaldiInjectors :+ commonBindings, configuration)
+      implicit val injector: Injector = createScaldiInjector(scaldiInjectors :+ commonBindings, configuration)
 
       injector -> Injectable.inject[PlayInjector]
     } catch {
@@ -140,11 +140,11 @@ object ScaldiBuilder extends Injectable {
     doLoadModules(highPrio) ++ doLoadModules(lowPrio)
   }
 
-  def createScaldiInjector(injectors: Seq[Injector], config: Configuration) = {
+  def createScaldiInjector(injectors: Seq[Injector], config: Configuration): Injector = {
     val standard = Seq(TypesafeConfigInjector(config.underlying), new OnDemandAnnotationInjector)
     val allInjectors = injectors ++ standard
 
-    implicit val injector = new MutableInjectorAggregation(allInjectors.toList)
+    implicit val injector: Injector = new MutableInjectorAggregation(allInjectors.toList)
 
     injector match {
       case init: Initializeable[_] =>
@@ -166,7 +166,7 @@ object ScaldiBuilder extends Injectable {
   }
 
   def convertToScaldiModule(env: Environment, conf: Configuration, playModule: PlayModule): Injector =
-    toScaldiBindings(playModule.bindings(env, conf))
+    toScaldiBindings(playModule.bindings(env, conf).toList)
 
   def identifiersForKey[T](key: BindingKey[T]): (Type, List[Identifier]) = {
     val mirror = ReflectionHelper.mirror
