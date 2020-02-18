@@ -5,7 +5,7 @@ description := "Dipendi-Play - Dipendi integration for Play framework"
 homepage := Some(url("http://github.com/protenus/dipendi-play"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1")
+crossScalaVersions := Seq("2.12.10", "2.13.1")
 scalaVersion := "2.13.1"
 
 mimaPreviousArtifacts := Set("0.6.0").map(organization.value %% name.value % _)
@@ -14,8 +14,8 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 testOptions in Test += Tests.Argument("-oDF")
 
-val playVersion = "2.7.4"
-val slickVersion = "4.0.2"
+val playVersion = "2.8.1"
+val slickVersion = "5.0.0"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % playVersion % Provided,
