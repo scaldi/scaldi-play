@@ -21,7 +21,7 @@ being an archived website, some of the links on it may not work properly.
 
 ## Adding Dipendi-play in Your Build
 
-SBT Configuration (Play 2.7.x):
+SBT Configuration (Play 2.7.x and Play 2.8.x):
 
 ```sbtshell
 libraryDependencies += "com.protenus" %% "dipendi-play" % "0.6.0"
