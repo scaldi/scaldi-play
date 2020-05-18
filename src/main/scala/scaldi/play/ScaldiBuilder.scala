@@ -96,11 +96,8 @@ abstract class ScaldiBuilder[Self] protected (
 
       injector -> Injectable.inject[PlayInjector]
     } catch {
-      case p: PlayException => throw p
-      case t: Throwable => t.getCause match {
-        case pe: PlayException => throw pe
-        case _ => throw t
-      }
+      // unwrap play exceptions that are causes of com.google.inject.CreationException without importing guice
+      case t: Throwable if t.getCause.isInstanceOf[PlayException] => throw t.getCause
     }
   }
 
