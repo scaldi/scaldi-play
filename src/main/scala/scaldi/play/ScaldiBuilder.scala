@@ -2,7 +2,6 @@ package scaldi.play
 
 import java.io.File
 
-import com.google.inject.CreationException
 import play.api._
 import play.api.inject.{Binding => PlayBinding, Injector => PlayInjector, Module => PlayModule, _}
 
@@ -97,10 +96,8 @@ abstract class ScaldiBuilder[Self] protected (
 
       injector -> Injectable.inject[PlayInjector]
     } catch {
-      case e: CreationException => e.getCause match {
-        case p: PlayException => throw p
-        case _ => throw e
-      }
+      // unwrap play exceptions that are causes of com.google.inject.CreationException without importing guice
+      case t: Throwable if t.getCause.isInstanceOf[PlayException] => throw t.getCause
     }
   }
 
