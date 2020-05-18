@@ -3,14 +3,15 @@ package scaldi.play
 import java.io.StringReader
 
 import com.typesafe.config.{ConfigFactory}
-import org.scalatest.{Matchers, WordSpec}
 import play.api.Configuration
 import play.api.db.slick.DatabaseConfigProvider
 import scaldi.Injectable
 import scaldi.play.ScaldiApplicationBuilder._
 import slick.jdbc.JdbcProfile
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class SlickTest extends WordSpec with Matchers with Injectable {
+class SlickTest extends AnyWordSpec with Matchers with Injectable {
   "Slick Plugin" should {
     "initialized and injected correctly" in {
       val config = Configuration(ConfigFactory.parseReader(new StringReader(

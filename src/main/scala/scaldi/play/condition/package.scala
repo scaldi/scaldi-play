@@ -20,22 +20,22 @@ package object condition {
   /**
    * Play application is started in Dev mode
    */
-  def inDevMode(implicit inj: Injector) = ModeCondition(Dev)
+  def inDevMode(implicit inj: Injector): ModeCondition = ModeCondition(Dev)
 
   /**
    * Play application is started in Test mode
    */
-  def inTestMode(implicit inj: Injector) = ModeCondition(Test)
+  def inTestMode(implicit inj: Injector): ModeCondition = ModeCondition(Test)
 
   /**
    * Play application is started in Prod mode
    */
-  def inProdMode(implicit inj: Injector) = ModeCondition(Prod)
+  def inProdMode(implicit inj: Injector): ModeCondition = ModeCondition(Prod)
 
   case class ModeCondition(mode: Mode)(implicit inj: Injector) extends Condition {
-    lazy val m = inject [Mode] ('playMode)
+    lazy val m: Mode = inject [Mode] (Symbol("playMode"))
 
-    override def satisfies(identifiers: List[Identifier]) = m == mode
+    override def satisfies(identifiers: List[Identifier]): Boolean = m == mode
     override val dynamic = false
   }
 }

@@ -25,7 +25,7 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
 
   private var bindings: Set[(List[Identifier], Option[BindingWithLifecycle])] = Set.empty
 
-  def getBindingInternal(identifiers: List[Identifier]) = identifiers match {
+  def getBindingInternal(identifiers: List[Identifier]): Option[BindingWithLifecycle] = identifiers match {
     case TypeTagIdentifier(tpe) :: Nil if tpe <:< typeTag[InjectedController].tpe || tpe <:< typeTag[AbstractController].tpe =>
       bindings.find(b => Identifier.sameAs(b._1, identifiers)) map (_._2) getOrElse {
         this.synchronized {
@@ -76,7 +76,7 @@ class ControllerInjector extends MutableInjectorUser with InjectorWithLifecycle[
     identifiers -> controller.map(c => LazyBinding(Some(() => c), identifiers))
   } 
   
-  def getBindingsInternal(identifiers: List[Identifier]) = getBindingInternal(identifiers).toList
+  def getBindingsInternal(identifiers: List[Identifier]): List[BindingWithLifecycle] = getBindingInternal(identifiers).toList
 
-  protected def init(lifecycleManager: LifecycleManager) = () => ()
+  protected def init(lifecycleManager: LifecycleManager): () => Unit = () => ()
 }

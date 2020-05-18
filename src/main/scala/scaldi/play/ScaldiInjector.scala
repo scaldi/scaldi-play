@@ -11,15 +11,15 @@ import scala.reflect.ClassTag
 class ScaldiInjector(useCache: Boolean, classLoader: ClassLoader)(implicit inj: Injector) extends PlayInjector {
   private val cache = TrieMap[BindingKey[_], () => Any]()
 
-  def instanceOf[T](implicit ct: ClassTag[T]) =
+  def instanceOf[T](implicit ct: ClassTag[T]): T =
     instanceOf(ct.runtimeClass.asInstanceOf[Class[T]])
 
-  def instanceOf[T](clazz: Class[T]) =
+  def instanceOf[T](clazz: Class[T]): T =
     instanceOf(BindingKey(clazz))
 
-  def instanceOf[T](key: BindingKey[T]) =
+  def instanceOf[T](key: BindingKey[T]): T =
     if (useCache) {
-      cache.get(key).getOrElse {
+      cache.getOrElse(key, {
         val (actual, allowedToCache, ids) = getActualBinding(key)
         val valueFn = () => actual getOrElse noBindingFound(ids)
 
@@ -27,7 +27,7 @@ class ScaldiInjector(useCache: Boolean, classLoader: ClassLoader)(implicit inj: 
           cache(key) = valueFn
 
         valueFn
-      }().asInstanceOf[T]
+      })().asInstanceOf[T]
     } else {
       val (actual, _, ids) = getActualBinding(key)
 
