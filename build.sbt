@@ -19,7 +19,7 @@ val slickVersion = "5.0.0"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % playVersion % Provided,
-  "org.scaldi" %% "scaldi" % "0.6.0",
+  "org.scaldi" %% "scaldi" % "0.6.1_a",
   "org.scaldi" %% "scaldi-jsr330" % "0.6.0",
   "org.scalatest" %% "scalatest" % "3.2.3" % Test,
   "com.typesafe.play" %% "play-test" % playVersion % Test,
