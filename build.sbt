@@ -5,11 +5,9 @@ description := "Scaldi-Play - Scaldi integration for Play framework"
 homepage := Some(url("http://github.com/scaldi/scaldi-play"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-crossScalaVersions := Seq("2.12.10", "2.13.1")
-scalaVersion := "2.13.1"
-
+scalaVersion := "2.13.4"
+crossScalaVersions := Seq("2.12.10", "2.13.4")
 mimaPreviousArtifacts := Set("0.6.0").map(organization.value %% name.value % _)
-
 scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 testOptions in Test += Tests.Argument("-oDF")
@@ -19,9 +17,10 @@ val slickVersion = "5.0.0"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % playVersion % Provided,
+  "com.typesafe.play" %% "play-guice" % playVersion % Provided,
   "org.scaldi" %% "scaldi" % "0.6.1",
-  "org.scaldi" %% "scaldi-jsr330" % "0.6.0",
-  "org.scalatest" %% "scalatest" % "3.2.3" % Test,
+  "org.scaldi" %% "scaldi-jsr330" % "0.6.1",
+  "org.scalatest" %% "scalatest" % "3.1.1" % Test,
   "com.typesafe.play" %% "play-test" % playVersion % Test,
   "com.typesafe.play" %% "play-slick" % slickVersion % Test,
   "com.typesafe.play" %% "play-slick-evolutions" % slickVersion % Test,
@@ -31,15 +30,30 @@ libraryDependencies ++= Seq(
 
 git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"
 
+// Publishing
+
+pomIncludeRepository := (_ => false)
+Test / publishArtifact := false
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowScalaVersions := crossScalaVersions.value
+ThisBuild / githubWorkflowJavaVersions ++= Seq("adopt@1.11")
+ThisBuild / githubWorkflowPublishTargetBranches :=  Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Sbt(
+    List("ci-release"),
+    env = Map(
+      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
+    )
+  )
+)
+
 // Site and docs
 
 enablePlugins(SiteScaladocPlugin)
 enablePlugins(GhpagesPlugin)
-
-// Publishing
-
-publishArtifact in Test := false
-pomIncludeRepository := (_ => false)
 
 // nice prompt!
 
