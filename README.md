@@ -18,7 +18,7 @@ being an archived website, some of the links on it may not work properly.
 
 SBT Configuration (Play 2.7.x and Play 2.8.x):
 ```sbtshell
-libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.6.0"
+libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.6.1"
 ```
 
 SBT Configuration (Play 2.6.x):
