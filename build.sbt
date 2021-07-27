@@ -10,21 +10,21 @@ crossScalaVersions := Seq("2.12.14", "2.13.6")
 mimaPreviousArtifacts := Set("0.6.0", "0.6.1").map(organization.value %% name.value % _)
 scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
-testOptions in Test += Tests.Argument("-oDF")
+Test / testOptions += Tests.Argument("-oDF")
 
-val playVersion = "2.8.8"
+val playVersion  = "2.8.8"
 val slickVersion = "5.0.0"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play" % playVersion % Provided,
-  "com.typesafe.play" %% "play-guice" % playVersion % Provided,
-  "org.scaldi" %% "scaldi" % "0.6.1",
-  "org.scaldi" %% "scaldi-jsr330" % "0.6.1",
-  "org.scalatest" %% "scalatest" % "3.2.9" % Test,
-  "com.typesafe.play" %% "play-test" % playVersion % Test,
-  "com.typesafe.play" %% "play-slick" % slickVersion % Test,
+  "com.typesafe.play" %% "play"                  % playVersion  % Provided,
+  "com.typesafe.play" %% "play-guice"            % playVersion  % Provided,
+  "org.scaldi"        %% "scaldi"                % "0.6.1",
+  "org.scaldi"        %% "scaldi-jsr330"         % "0.6.1",
+  "org.scalatest"     %% "scalatest"             % "3.2.9"      % Test,
+  "com.typesafe.play" %% "play-test"             % playVersion  % Test,
+  "com.typesafe.play" %% "play-slick"            % slickVersion % Test,
   "com.typesafe.play" %% "play-slick-evolutions" % slickVersion % Test,
-  "com.h2database" % "h2" % "1.4.200" % Test,
+  "com.h2database"     % "h2"                    % "1.4.200"    % Test,
   "com.typesafe.play" %% "play-cache" % playVersion % Test // cache plugin add extra bindings which have some specialties and will be tested automatically
 )
 
@@ -37,14 +37,14 @@ Test / publishArtifact := false
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowScalaVersions := crossScalaVersions.value
 ThisBuild / githubWorkflowJavaVersions ++= Seq("adopt@1.11")
-ThisBuild / githubWorkflowPublishTargetBranches :=  Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+ThisBuild / githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Tag("v")))
 ThisBuild / githubWorkflowBuildPreamble := Seq(WorkflowStep.Sbt(List("scalafmtCheckAll")))
 ThisBuild / githubWorkflowPublish := Seq(
   WorkflowStep.Sbt(
     List("ci-release"),
     env = Map(
-      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
-      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "PGP_PASSPHRASE"    -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET"        -> "${{ secrets.PGP_SECRET }}",
       "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
       "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
     )
@@ -58,7 +58,7 @@ enablePlugins(GhpagesPlugin)
 
 // nice prompt!
 
-shellPrompt in ThisBuild := { state =>
+ThisBuild / shellPrompt := { state =>
   scala.Console.GREEN + Project.extract(state).currentRef.project + "> " + scala.Console.RESET
 }
 
@@ -66,10 +66,12 @@ shellPrompt in ThisBuild := { state =>
 
 startYear := Some(2011)
 organizationHomepage := Some(url("https://github.com/scaldi"))
-scmInfo := Some(ScmInfo(
-  browseUrl = url("https://github.com/scaldi/scaldi-play"),
-  connection = "scm:git:git@github.com:scaldi/scaldi-play.git"
-))
+scmInfo := Some(
+  ScmInfo(
+    browseUrl = url("https://github.com/scaldi/scaldi-play"),
+    connection = "scm:git:git@github.com:scaldi/scaldi-play.git"
+  )
+)
 developers := List(
   Developer("AprilAtProtenus", "April Hyacinth", "april@protenus.com", url("https://github.com/AprilAtProtenus")),
   Developer("dave-handy", "Dave Handy", "wdhandy@gmail.com", url("https://github.com/dave-handy"))

@@ -13,7 +13,7 @@ class ScaldiApplicationLoader(val builder: ScaldiApplicationBuilder) extends App
       .in(context.environment)
       .loadConfig(context.initialConfiguration)
       .prependModule(new Module {
-        bind [OptionalDevContext] to new OptionalDevContext(context.devContext)
+        bind[OptionalDevContext] to new OptionalDevContext(context.devContext)
       })
       .build()
 }

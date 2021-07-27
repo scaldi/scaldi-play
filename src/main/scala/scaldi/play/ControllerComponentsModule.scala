@@ -7,9 +7,7 @@ import scaldi.Module
 
 import scala.concurrent.ExecutionContext
 
-/**
-  * Created by dsarosi on 30/6/2017.
-  */
+/** Created by dsarosi on 30/6/2017. */
 class ControllerComponentsModule extends Module {
   bind[ControllerComponents] to DefaultControllerComponents(
     inject[DefaultActionBuilder],
