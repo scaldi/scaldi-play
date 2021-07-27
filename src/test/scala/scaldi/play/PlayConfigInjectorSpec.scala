@@ -3,14 +3,14 @@ package scaldi.play
 import com.typesafe.config.ConfigFactory
 import play.api.Configuration
 import scaldi.play.ScaldiApplicationBuilder._
-import scaldi.{Injectable, Module, Injector}
+import scaldi.{Injectable, Injector, Module}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class PlayConfigInjectorSpec extends AnyWordSpec with Matchers {
   class DummyService(implicit inj: Injector) extends Injectable {
-    val strProp = inject [String] (identified by "test.stringProp")
-    val intProp = inject [Int] (identified by "test.intProp")
+    val strProp = inject[String](identified by "test.stringProp")
+    val intProp = inject[Int](identified by "test.intProp")
 
     def hi = s"Hi, str = $strProp, int = ${intProp + 1}"
   }
@@ -24,10 +24,9 @@ class PlayConfigInjectorSpec extends AnyWordSpec with Matchers {
       withScaldiInj(modules = Seq(testModule), configuration = Configuration(ConfigFactory.load())) { implicit inj =>
         import Injectable._
 
-        inject[DummyService].hi should be ("Hi, str = 123, int = 457")
+        inject[DummyService].hi should be("Hi, str = 123, int = 457")
       }
     }
   }
-
 
 }

@@ -17,27 +17,30 @@ class ControllerInjectorTest extends AnyWordSpec with Matchers with Injectable {
       override val name = "in user module"
     }
 
-    bind [String] identifiedBy Symbol("dep") to "dep"
+    bind[String] identifiedBy Symbol("dep") to "dep"
 
-    bind [Environment] to Environment.simple()
+    bind[Environment] to Environment.simple()
   }
 
   "ControllerInjector" should {
 
-    withScaldiInj(modules = Seq(new UserModule, new ControllerComponentsModule, new ControllerInjector), environment = Environment.simple(mode = Test)) { implicit inj =>
+    withScaldiInj(
+      modules = Seq(new UserModule, new ControllerComponentsModule, new ControllerInjector),
+      environment = Environment.simple(mode = Test)
+    ) { implicit inj =>
       "create injected controllers with implicit injector" in {
-        inject[TestInjectedController1].dep should be ("dep-ic1")
+        inject[TestInjectedController1].dep should be("dep-ic1")
       }
 
       "use explicitly defined bindings for injected controllers" in {
         val c2 = inject[TestInjectedController2]
 
-        c2.dep should be ("dep-ic2")
-        c2.name should be ("in user module")
+        c2.dep should be("dep-ic2")
+        c2.name should be("in user module")
       }
 
       "create abstract controllers with implicit injector" in {
-        inject[TestAbstractController1].dep should be ("dep-ac1")
+        inject[TestAbstractController1].dep should be("dep-ac1")
       }
 
     }
@@ -48,11 +51,13 @@ class ControllerInjectorTest extends AnyWordSpec with Matchers with Injectable {
 class TestInjectedController1(implicit inj: Injector) extends InjectedController with Injectable {
   val dep = inject[String](Symbol("dep")) + "-ic1"
 }
-class TestInjectedController2(implicit inj: Injector) extends InjectedController with Injectable  {
-  val dep = inject[String](Symbol("dep")) + "-ic2"
+class TestInjectedController2(implicit inj: Injector) extends InjectedController with Injectable {
+  val dep  = inject[String](Symbol("dep")) + "-ic2"
   val name = "test"
 }
 
-class TestAbstractController1(implicit inj: Injector, controllerComponents: ControllerComponents) extends AbstractController(controllerComponents) with Injectable {
+class TestAbstractController1(implicit inj: Injector, controllerComponents: ControllerComponents)
+    extends AbstractController(controllerComponents)
+    with Injectable {
   val dep = inject[String](Symbol("dep")) + "-ac1"
 }

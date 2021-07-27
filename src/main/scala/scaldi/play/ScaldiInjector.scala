@@ -19,15 +19,19 @@ class ScaldiInjector(useCache: Boolean, classLoader: ClassLoader)(implicit inj: 
 
   def instanceOf[T](key: BindingKey[T]): T =
     if (useCache) {
-      cache.getOrElse(key, {
-        val (actual, allowedToCache, ids) = getActualBinding(key)
-        val valueFn = () => actual getOrElse noBindingFound(ids)
+      cache
+        .getOrElse(
+          key, {
+            val (actual, allowedToCache, ids) = getActualBinding(key)
+            val valueFn                       = () => actual getOrElse noBindingFound(ids)
 
-        if (allowedToCache)
-          cache(key) = valueFn
+            if (allowedToCache)
+              cache(key) = valueFn
 
-        valueFn
-      })().asInstanceOf[T]
+            valueFn
+          }
+        )()
+        .asInstanceOf[T]
     } else {
       val (actual, _, ids) = getActualBinding(key)
 
@@ -37,7 +41,7 @@ class ScaldiInjector(useCache: Boolean, classLoader: ClassLoader)(implicit inj: 
   private def getActualBinding(key: BindingKey[_]): (Option[Any], Boolean, List[Identifier]) =
     Threads.withContextClassLoader(classLoader) {
       val (_, identifiers) = ScaldiBuilder.identifiersForKey(key)
-      val binding = inj getBinding identifiers
+      val binding          = inj getBinding identifiers
 
       binding map (b => (b.get, b.isCacheable, identifiers)) getOrElse noBindingFound(identifiers)
     }

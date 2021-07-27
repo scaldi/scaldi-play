@@ -9,7 +9,7 @@ import scaldi.Module
 import scala.runtime.AbstractPartialFunction
 
 class FakeRouterModule(fakeRoutes: PartialFunction[(String, String), Handler]) extends Module {
-  bind [Router] to new FakeRouter(inject[RoutesProvider].get)(fakeRoutes)
+  bind[Router] to new FakeRouter(inject[RoutesProvider].get)(fakeRoutes)
 }
 
 object FakeRouterModule {
@@ -28,5 +28,5 @@ class FakeRouter(fallback: Router)(fakeRoutes: PartialFunction[(String, String),
   }
 
   def documentation: Seq[(String, String, String)] = fallback.documentation
-  def withPrefix(prefix: String) = new FakeRouter(fallback.withPrefix(prefix))(fakeRoutes)
+  def withPrefix(prefix: String)                   = new FakeRouter(fallback.withPrefix(prefix))(fakeRoutes)
 }
