@@ -1,12 +1,12 @@
-name := "scaldi-play"
+name         := "scaldi-play"
 organization := "org.scaldi"
 
 description := "Scaldi-Play - Scaldi integration for Play framework"
-homepage := Some(url("http://github.com/scaldi/scaldi-play"))
-licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
+homepage    := Some(url("http://github.com/scaldi/scaldi-play"))
+licenses    := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-scalaVersion := "2.13.6"
-crossScalaVersions := Seq("2.12.14", "2.13.6")
+scalaVersion          := "2.13.6"
+crossScalaVersions    := Seq("2.12.14", "2.13.6")
 mimaPreviousArtifacts := Set("0.6.0", "0.6.1").map(organization.value %% name.value % _)
 scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
@@ -31,13 +31,13 @@ git.remoteRepo := "git@github.com:scaldi/scaldi-play.git"
 
 // Publishing
 
-pomIncludeRepository := (_ => false)
+pomIncludeRepository   := (_ => false)
 Test / publishArtifact := false
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowScalaVersions := crossScalaVersions.value
 ThisBuild / githubWorkflowJavaVersions ++= Seq("adopt@1.11")
 ThisBuild / githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Tag("v")))
-ThisBuild / githubWorkflowBuildPreamble := Seq(WorkflowStep.Sbt(List("scalafmtCheckAll")))
+ThisBuild / githubWorkflowBuildPreamble         := Seq(WorkflowStep.Sbt(List("scalafmtCheckAll")))
 ThisBuild / githubWorkflowPublish := Seq(
   WorkflowStep.Sbt(
     List("ci-release"),
@@ -63,7 +63,7 @@ ThisBuild / shellPrompt := { state =>
 
 // Additional meta-info
 
-startYear := Some(2011)
+startYear            := Some(2011)
 organizationHomepage := Some(url("https://github.com/scaldi"))
 scmInfo := Some(
   ScmInfo(
