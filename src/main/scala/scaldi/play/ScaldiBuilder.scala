@@ -1,19 +1,16 @@
 package scaldi.play
 
-import java.io.File
-
 import play.api._
 import play.api.inject.{Binding => PlayBinding, Injector => PlayInjector, Module => PlayModule, _}
-
 import scaldi._
 import scaldi.jsr330.{AnnotationBinding, AnnotationIdentifier, OnDemandAnnotationInjector}
 import scaldi.util.ReflectionHelper
 
+import java.io.File
 import javax.inject._
-
 import scala.concurrent.Future
-import scala.reflect.runtime.universe.{typeOf, Type}
 import scala.reflect.ClassTag
+import scala.reflect.runtime.universe.{typeOf, Type}
 
 abstract class ScaldiBuilder[Self] protected (
     environment: Environment,
@@ -23,8 +20,7 @@ abstract class ScaldiBuilder[Self] protected (
 ) {
 
   /** Set the environment. */
-  final def in(env: Environment): Self =
-    copyBuilder(environment = env)
+  final def in(env: Environment): Self = copyBuilder(environment = env)
 
   /** Set the environment path. */
   final def in(path: File): Self =
@@ -35,34 +31,25 @@ abstract class ScaldiBuilder[Self] protected (
     copyBuilder(environment = environment.copy(mode = mode))
 
   /** Set the environment class loader. */
-  final def in(classLoader: ClassLoader): Self =
-    copyBuilder(environment = environment.copy(classLoader = classLoader))
+  final def in(classLoader: ClassLoader): Self = copyBuilder(environment = environment.copy(classLoader = classLoader))
 
   /** Add additional configuration. */
-  final def configure(conf: Configuration): Self =
-    copyBuilder(configuration = configuration ++ conf)
+  final def configure(conf: Configuration): Self = copyBuilder(configuration = conf withFallback configuration)
 
   /** Add additional configuration. */
-  final def configure(conf: Map[String, Any]): Self =
-    configure(Configuration.from(conf))
+  final def configure(conf: Map[String, Any]): Self = configure(Configuration.from(conf))
 
   /** Add additional configuration. */
-  final def configure(conf: (String, Any)*): Self =
-    configure(conf.toMap)
+  final def configure(conf: (String, Any)*): Self = configure(conf.toMap)
 
   /** * Disable modules by class.
     */
-  final def disable(moduleClasses: Class[_]*): Self =
-    copyBuilder(disabled = disabled ++ moduleClasses)
+  final def disable(moduleClasses: Class[_]*): Self = copyBuilder(disabled = disabled ++ moduleClasses)
 
   /** Disable module by class. */
-  final def disable[T](implicit tag: ClassTag[T]): Self = disable(tag.runtimeClass)
-
-  final def appendModule(ms: CanBeScaldiInjector*): Self =
-    copyBuilder(modules = modules ++ ms)
-
-  final def prependModule(ms: CanBeScaldiInjector*): Self =
-    copyBuilder(modules = ms ++ modules)
+  final def disable[T](implicit tag: ClassTag[T]): Self   = disable(tag.runtimeClass)
+  final def appendModule(ms: CanBeScaldiInjector*): Self  = copyBuilder(modules = modules ++ ms)
+  final def prependModule(ms: CanBeScaldiInjector*): Self = copyBuilder(modules = ms ++ modules)
 
   final protected def createInjector: (Injector, PlayInjector) = {
     import ScaldiBuilder._
@@ -147,17 +134,21 @@ object ScaldiBuilder extends Injectable {
   def convertToScaldiModule(env: Environment, conf: Configuration, playModule: PlayModule): Injector =
     toScaldiBindings(playModule.bindings(env, conf).toList)
 
+  /** Convert play DI [[BindingKey]] to scaldi [[Identifier]] s. If using [[Qualifier]] annotations, the qualifier
+    * annotations must be themselves annotated with @[[Qualifier]] or an error will be thrown. This aligns with JSR330.
+    *
+    * This differs from play's [[BindingKey]] documented examples showing qualifier annotations that do not have this
+    * annotation.
+    */
   def identifiersForKey[T](key: BindingKey[T]): (Type, List[Identifier]) = {
     val mirror  = ReflectionHelper.mirror
     val keyType = mirror.classSymbol(key.clazz).toType
 
+    // scaldi appears to differ from play's
     val qualifier: Option[Identifier] = key.qualifier map {
-      case QualifierInstance(a: Named) =>
-        StringIdentifier(a.value())
-      case QualifierInstance(a) if ReflectionHelper.hasAnnotation[Qualifier](a) =>
-        AnnotationIdentifier.forAnnotation(a)
-      case QualifierClass(clazz) =>
-        AnnotationIdentifier(ReflectionHelper.classToType(clazz))
+      case QualifierInstance(a: Named) => StringIdentifier(a.value())
+      case QualifierInstance(a)        => AnnotationIdentifier.forAnnotation(a)
+      case QualifierClass(clazz)       => AnnotationIdentifier(ReflectionHelper.classToType(clazz))
     }
 
     (keyType, TypeTagIdentifier(keyType) :: qualifier.toList)
