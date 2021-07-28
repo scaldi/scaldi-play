@@ -1,6 +1,6 @@
 # Scaldi-Play
 
-[![Build Status](https://travis-ci.org/scaldi/scaldi-play.svg?branch=master)](https://travis-ci.org/scaldi/scaldi-play)
+![Continuous Integration](https://github.com/scaldi/scaldi-play/workflows/Continuous%20Integration/badge.svg)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.scaldi/scaldi-play_2.13)
 
 [Scaldi](https://github.com/scaldi/scaldi) integration for Play framework
@@ -18,7 +18,7 @@ being an archived website, some of the links on it may not work properly.
 
 SBT Configuration (Play 2.7.x and Play 2.8.x):
 ```sbtshell
-libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.6.1"
+libraryDependencies += "org.scaldi" %% "scaldi-play" % x.y.z
 ```
 
 SBT Configuration (Play 2.6.x):
