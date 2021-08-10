@@ -1,9 +1,8 @@
 package scaldi.play
 
 import play.api._
-import play.api.inject.{Injector => PlayInjector, Module => _, _}
+import play.api.inject.{Injector => PlayInjector, Module => _}
 import play.core.{DefaultWebCommands, WebCommands}
-
 import scaldi.{Injectable, Injector, Module}
 
 /** A builder for creating Applications using Scaldi. */
@@ -28,33 +27,28 @@ final class ScaldiApplicationBuilder(
     copy(loadConfiguration = loader)
 
   /** Set the initial configuration. Overrides the default or any previously configured values. */
-  def loadConfig(conf: Configuration): ScaldiApplicationBuilder =
-    loadConfig(env => conf)
+  def loadConfig(conf: Configuration): ScaldiApplicationBuilder = loadConfig(_ => conf)
 
   /** Set the module loader. Overrides the default or any previously configured values. */
   def load(loader: (Environment, Configuration) => Seq[CanBeScaldiInjector]): ScaldiApplicationBuilder =
     copy(loadModules = loader)
 
   /** Override the module loader with the given modules. */
-  def load(modules: CanBeScaldiInjector*): ScaldiApplicationBuilder =
-    load((env, conf) => modules)
+  def load(modules: CanBeScaldiInjector*): ScaldiApplicationBuilder = load((_, _) => modules)
 
   protected def realInjector: (Injector, PlayInjector) = {
     val initialConfiguration = loadConfiguration(environment)
-    val appConfiguration     = initialConfiguration ++ configuration
+    val appConfiguration     = configuration withFallback initialConfiguration
 
-    LoggerConfigurator(environment.classLoader).foreach {
-      _.configure(environment)
-    }
+    LoggerConfigurator(environment.classLoader).foreach(_.configure(environment))
 
     if (appConfiguration.underlying.hasPath("logger"))
-      ScaldiApplicationBuilder.logger
-        .warn(
-          "Logger configuration in conf files is deprecated and has no effect. Use a logback configuration file instead."
-        )
+      ScaldiApplicationBuilder.logger.warn(
+        "Logger configuration in conf files is deprecated and has no effect. Use a logback configuration file instead."
+      )
 
     val loadedModules    = loadModules(environment, appConfiguration)
-    val cacheControllers = configuration.getOptional[Boolean]("scaldi.controller.cache") getOrElse true
+    val cacheControllers = appConfiguration.getOptional[Boolean]("scaldi.controller.cache") getOrElse true
 
     copy(configuration = appConfiguration)
       .appendModule(loadedModules: _*)
