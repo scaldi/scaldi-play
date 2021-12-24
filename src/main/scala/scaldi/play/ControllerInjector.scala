@@ -70,14 +70,15 @@ class ControllerInjector
           val mirror            = runtimeMirror(env.classLoader)
           val constructorMirror = mirror.reflectClass(tpe.typeSymbol.asClass).reflectConstructor(constructor)
 
-          try constructor.paramLists match {
-            case List(Nil, List(_, _)) => constructorMirror(injector, inject[ControllerComponents])
-            case List(Nil, List(_)) =>
-              val instance = constructorMirror(injector)
-              instance.asInstanceOf[InjectedController].setControllerComponents(inject[ControllerComponents])
-              instance
-            case List(Nil) => constructorMirror()
-          } catch {
+          try
+            constructor.paramLists match {
+              case List(Nil, List(_, _)) => constructorMirror(injector, inject[ControllerComponents])
+              case List(Nil, List(_)) =>
+                val instance = constructorMirror(injector)
+                instance.asInstanceOf[InjectedController].setControllerComponents(inject[ControllerComponents])
+                instance
+              case List(Nil) => constructorMirror()
+            } catch {
             case e: InvocationTargetException => throw e.getCause
           }
         }
