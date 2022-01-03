@@ -78,7 +78,8 @@ class ControllerInjector
                 instance.asInstanceOf[InjectedController].setControllerComponents(inject[ControllerComponents])
                 instance
               case List(Nil) => constructorMirror()
-            } catch {
+            }
+          catch {
             case e: InvocationTargetException => throw e.getCause
           }
         }
