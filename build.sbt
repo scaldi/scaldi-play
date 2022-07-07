@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-test"             % playVersion  % Test,
   "com.typesafe.play" %% "play-slick"            % slickVersion % Test,
   "com.typesafe.play" %% "play-slick-evolutions" % slickVersion % Test,
-  "com.h2database"     % "h2"                    % "2.1.212"    % Test,
+  "com.h2database"     % "h2"                    % "2.1.214"    % Test,
   "com.typesafe.play" %% "play-cache" % playVersion % Test // cache plugin add extra bindings which have some specialties and will be tested automatically
 )
 
