@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play"                  % playVersion  % Provided,
   "com.typesafe.play" %% "play-guice"            % playVersion  % Provided,
   "org.scaldi"        %% "scaldi-jsr330"         % "0.6.2",
-  "org.scalatest"     %% "scalatest"             % "3.2.12"     % Test,
+  "org.scalatest"     %% "scalatest"             % "3.2.13"     % Test,
   "com.typesafe.play" %% "play-test"             % playVersion  % Test,
   "com.typesafe.play" %% "play-slick"            % slickVersion % Test,
   "com.typesafe.play" %% "play-slick-evolutions" % slickVersion % Test,
