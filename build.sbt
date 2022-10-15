@@ -13,7 +13,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 Test / testOptions += Tests.Argument("-oDF")
 
 val playVersion  = "2.8.13"
-val slickVersion = "5.0.2"
+val slickVersion = "5.1.0"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play"                  % playVersion  % Provided,
